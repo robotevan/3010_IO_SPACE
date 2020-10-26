@@ -1,0 +1,40 @@
+body, html{
+    margin: 0%;
+    padding: 0%;
+    background-image: linear-gradient(to bottom, black , #172a36);
+}
+
+.section{
+    height: 100vh;
+    width: 100vw;
+}
+
+.infocontainer{
+    color: white;
+    font-family: Montserrat;
+    position: absolute;
+}
+
+.maintitle{
+    display: flex;
+    font-size: 5vw;
+}
+
+.largetitle{
+    margin-bottom: 0%;
+}
+
+.blinkingunderscore{
+    animation: blink infinite 1s;
+    margin-bottom: 0%;
+}
+
+@keyframes blink{
+    50%{
+        opacity: 0.0;
+    }
+}
+
+.infosubtitle{
+    padding-left: 1vw;
+}
