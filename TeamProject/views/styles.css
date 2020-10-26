@@ -6,17 +6,17 @@ body, html{
 }
 
 .fadein{
-    opacity: 1;
+    opacity: '1';
 }
 
 header{
     z-index: 100;
     position: fixed;
     background-color: white;
-    width: 100%;
     padding: 0%;
     margin: 0%;
     border-bottom: solid black;
+    width: 100%;
 }
 
 .navtitle{
@@ -47,13 +47,12 @@ header{
     height: 100vh;
     width: 100%;
     color: white;
-    padding-left: 1vw;
-    padding-right: 1vw;
 }
 
 
 #introsection{
     padding: 0%;
+    margin: 0%;
 }
 
 .infocontainer{
@@ -81,11 +80,14 @@ header{
 }
 
 .mainsubtitle{
-    padding-left: 1vw;
+    padding-left: 0.8vw;
+    font-size: 1.9vw;
+    margin-top: 0%;
 }
 
 .sectionheader{
     margin-bottom: 2vw;
+    font-size: 3vw;
 }
 
 .sectiontext{
