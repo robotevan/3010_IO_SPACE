@@ -10,15 +10,15 @@ header{
     z-index: 100;
     position: fixed;
     background-color: white;
-    padding: 0%;
-    margin: 0%;
+    padding: 0;
+    margin: 0;
     border-bottom: solid black;
     width: 100%;
 }
 
 .navtitle{
     float: left;
-    margin: 0%;
+    margin: 0;
     margin-top: 0.7vh;
     position: fixed;
     color: black;
@@ -55,7 +55,7 @@ header{
 }
 
 .maintitle{
-    margin-top: 4vw;
+    margin-top: 4vh;
     display: flex;
     font-size: 5vw;
 }
