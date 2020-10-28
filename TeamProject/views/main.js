@@ -1,5 +1,5 @@
 // List of words to display on main page
-var words = ["code", "deploy", "dev", "🐒", "create", "test", "IOT", "🍌", "make", "WIFI", "EASY"]
+var words = ["code", "deploy", "dev", "🐒", "create", "API", "test", "IoT", "🍌", "make", "python", "app", "🙈"]
 var currWord = 0;
 
 async function writeCode(){
@@ -26,9 +26,20 @@ async function writeCode(){
   }
 }
 
-writeCode();
+$(document).ready(function() {
+      $(window).scroll( function(){
+        $('.gradientfadein').each( function(i){
+          var bottom_of_object = $(this).offset().top + $(this).outerHeight();
+          var bottom_of_window = $(window).scrollTop() + $(window).height();
+          if( bottom_of_window > bottom_of_object ){
+              $(this).animate({'opacity':'1'},{duration:600, queue:false});     
+          }else{
+              $(this).animate({'opacity':'0'},{duration:600, queue:false});   
+          }
+      }); 
+  });
+});
 
-
-$(document).scroll(function(){
-  var itemBot = $(this).posi              
+$(document).ready(function(){
+    writeCode();
 })

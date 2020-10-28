@@ -6,10 +6,6 @@ body, html{
     scroll-behavior: smooth;
 }
 
-.fadein{
-    opacity: '1';
-}
-
 header{
     z-index: 100;
     position: fixed;
@@ -92,9 +88,59 @@ header{
 .sectionheader{
     padding-top: 3vw;
     margin-bottom: 2vw;
-    font-size: 3vw;
+    font-size: 3vw; 
 }
 
 .sectiontext{
     text-align: center;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    font-size: 1.5vw;
+}
+
+#about{
+    height: 155vh;
+}
+
+.bulletpoints{
+    padding: 3vw;
+    padding-bottom: 2vh;
+    display: flex;
+    margin: 0%;
+}
+
+.iodeftext{
+    font-size: 2vw;
+    margin: 0%;
+    margin-right: 5vw;
+}
+
+#iospacegoal{
+margin-top: 20vh;
+}
+
+@keyframes flow {
+    0%{background-position: 0% 50%;}
+    50%{background-position: 100% 50%;}
+    100%{background-position: 0% 50%;}
+}
+
+
+.gradientfadein{
+    opacity: 0;
+    text-align: center;
+    font-size: 13vw;
+    margin: 0%;
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: flow 5s ease infinite;
+    -webkit-background-clip: text;
+        background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer{
+    background-color: white;
+    height: 15vw;
+    opacity: 10%;
 }
