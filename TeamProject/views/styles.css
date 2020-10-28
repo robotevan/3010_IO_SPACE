@@ -22,6 +22,7 @@ header{
 .navtitle{
     float: left;
     margin: 0%;
+    margin-top: 0.7vh;
     position: fixed;
 }
 .navbar{
@@ -49,17 +50,12 @@ header{
     color: white;
 }
 
-
-#introsection{
-    padding: 0%;
-    margin: 0%;
-}
-
 .infocontainer{
     position: absolute;
 }
 
 .maintitle{
+    margin-top: 4vw;
     display: flex;
     font-size: 5vw;
 }
@@ -83,6 +79,10 @@ header{
     padding-left: 0.8vw;
     font-size: 1.9vw;
     margin-top: 0%;
+}
+
+.codeText{
+    height: 1vw;
 }
 
 .sectionheader{
