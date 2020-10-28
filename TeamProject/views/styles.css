@@ -3,6 +3,7 @@ body, html{
     padding: 0%;
     background-image: linear-gradient(to bottom, black , #172a36);
     font-family: Montserrat;
+    scroll-behavior: smooth;
 }
 
 .fadein{
@@ -24,6 +25,9 @@ header{
     margin: 0%;
     margin-top: 0.7vh;
     position: fixed;
+    color: black;
+    text-decoration: none;
+    font-size: 3vh;
 }
 .navbar{
     margin-top: 2vh;
@@ -50,7 +54,7 @@ header{
     color: white;
 }
 
-.infocontainer{
+.sectioncontainer{
     position: absolute;
 }
 
@@ -86,6 +90,7 @@ header{
 }
 
 .sectionheader{
+    padding-top: 3vw;
     margin-bottom: 2vw;
     font-size: 3vw;
 }
