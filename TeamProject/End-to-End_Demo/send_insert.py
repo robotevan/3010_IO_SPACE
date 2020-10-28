@@ -3,44 +3,81 @@ import pymongo
 import datetime
 import time
 
-client = pymongo.MongoClient("mongodb://192.168.1.48:27017")
-database = client.iospace
-collection = database.test
+def connect_to_database(connection_string: str, database_name: str) -> pymongo.database.Database:
+    try:
+        client = pymongo.MongoClient(connection_string, serverSelectionTimeoutMS=2000)
+        client.server_info()
+        return client[database_name]
+    except pymongo.errors.ServerSelectionTimeoutError as error:
+        print ("Unable to connect to mongodb server ERROR:", error)
+        return None
+
+def get_collection(database: pymongo.database.Database, collection_name: str) -> pymongo.collection.Collection:
+    return database[collection_name]
+    
+
+def insert_into_collection(collection: pymongo.collection.Collection, data: int) -> bool:
+    result = collection.insert_one({
+        "node_name": "node",
+        "device_type": "sensor",
+        "device_name": "temperature",
+        "data": data,
+        "date": datetime.datetime.now()
+    })
+    return result.acknowledged
+
+def connect_to_broker(address: str, message_function):
+    try:
+        client = mqtt.Client("backend")
+        client.on_message = message_function #attach function to callback
+        client.connect(BROKER_ADDRESS)
+        return client
+    except ConnectionRefusedError as error:
+        print("Unable to connect to broker ERROR: ", error) 
+        return None
 
 def on_message(client, userdata, message):
     print("message received " ,str(message.payload.decode("utf-8")))
     print("message topic =",message.topic)
     print("message qos =",message.qos)
     print("message retain flag =",message.retain)
-    collection.insert_one({
-        "node_name": "node",
-        "device_type": "sensor",
-        "device_name": "temperature",
-        "data": int(message.payload.decode("utf-8")),
-        "date": datetime.datetime.now()
-    })
+    print("Is data inserted into db: ", insert_into_collection(collection, int(message.payload.decode("utf-8"))))
     
-temp_list = [23, 24, 25, 26, 27]
+def subscribe(client, topic: str):
+    client.subscribe(topic)
+    
+def unsubscribe(client, topic: str):
+    client.unsubscribe(topic)    
 
-broker_address="192.168.1.15"
+def publish(client, topic: str, message: str) -> bool:
+    result = client.publish(topic, message)
+    result.wait_for_publish()
+    return result.is_published()
 
-print("creating new instance")
-client = mqtt.Client("backend")
+def start_mqtt_thread(client):
+    client.loop_start()
 
-client.on_message=on_message #attach function to callback
+def stop_mqtt_thread(client):
+    client.loop_stop()
 
-print("connecting to broker")
-client.connect(broker_address)
+if __name__ == "__main__":
+    SEND_TOPIC = "test"
+    ECHO_TOPIC = "testecho"
+    CONNECTION_STRING = "mongodb://192.168.1.48:27017"
+    TEMP_LIST = [23, 24, 25, 26, 27]
+    BROKER_ADDRESS ="192.168.1.15"
+    
+    database = connect_to_database(CONNECTION_STRING, "iospace")
+    collection = get_collection(database, "test")
+    client = connect_to_broker(BROKER_ADDRESS, on_message)
 
-print("Subscribing to topic","testecho")
-client.subscribe("testecho")
+    subscribe(client, ECHO_TOPIC)
 
-client.loop_start()
+    start_mqtt_thread(client)
+    while True:
+        for temp in TEMP_LIST:
+            print("Is message publsihed: ",publish(client, SEND_TOPIC, temp))
+            time.sleep(5)
+    stop_mqtt_thread(client)
+            
 
-while True:
-    for temp in temp_list:
-        print("publishing on test Temp: ", temp)
-        client.publish("test", temp)
-        time.sleep(5)
-        
-client.loop_stop()

@@ -12,7 +12,7 @@ def on_message(client, userdata, message):
 broker_address="192.168.1.15"
 
 print("creating new instance")
-client = mqtt.Client("P1")
+client = mqtt.Client("node")
 
 client.on_message=on_message #attach function to callback
 
