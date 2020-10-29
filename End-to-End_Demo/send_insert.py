@@ -42,11 +42,11 @@ def on_message(client, userdata, message):
     print("message retain flag =",message.retain)
     print("Is data inserted into db: ", insert_into_collection(collection, int(message.payload.decode("utf-8"))))
 
-def subscribe(mqtt_client: mqtt.Client, topic: str):
-    mqtt_client.subscribe(topic)
+def subscribe(mqtt_client: mqtt.Client, topic: str) -> tuple:
+    return mqtt_client.subscribe(topic)
 
-def unsubscribe(mqtt_client: mqtt.Client, topic: str):
-    mqtt_client.unsubscribe(topic)
+def unsubscribe(mqtt_client: mqtt.Client, topic: str) -> tuple:
+    return mqtt_client.unsubscribe(topic)
 
 def publish(mqtt_client: mqtt.Client, topic: str, message: str) -> bool:
     result = mqtt_client.publish(topic, message)
