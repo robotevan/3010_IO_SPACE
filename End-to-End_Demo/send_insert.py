@@ -14,7 +14,6 @@ def connect_to_database(connection_string: str, database_name: str) -> pymongo.d
 
 def get_collection(database: pymongo.database.Database, collection_name: str) -> pymongo.collection.Collection:
     return database[collection_name]
-    
 
 def insert_into_collection(collection: pymongo.collection.Collection, data: int) -> bool:
     result = collection.insert_one({
