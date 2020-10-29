@@ -28,7 +28,7 @@ def connect_to_broker(address: str, message_function) -> mqtt.Client:
     try:
         client = mqtt.Client("backend")
         client.on_message = message_function #attach function to callback
-        client.connect(BROKER_ADDRESS)
+        client.connect(address)
         return client
     except ConnectionRefusedError as error:
         print("Unable to connect to broker ERROR: ", error)
