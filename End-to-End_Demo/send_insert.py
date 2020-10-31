@@ -18,15 +18,15 @@ def get_collection(select_database: pymongo.database.Database, collection_name: 
     else:
         raise NameError("collection_name doesn't exist on selected database")
 
-def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str ,data: int) -> bool:
+def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str ,data: float) -> bool:
     if type(select_collection) != pymongo.collection.Collection:
         raise TypeError("select_collection MUST be of type pymongo.collection.Collection")
     elif type(node_name) != str:
         raise TypeError("node_name MUST be a string")
     elif type(device_name) != str:
         raise TypeError("device_name MUST be a string")
-    elif type(data) != int:
-        raise TypeError("data MUST be an int")
+    elif (type(data) != float) or (type(data) != int):
+        raise TypeError("data MUST be a float or an int")
 
     result = select_collection.insert_one({
         "node_name": node_name,
