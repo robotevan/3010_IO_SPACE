@@ -18,7 +18,7 @@ def get_collection(select_database: pymongo.database.Database, collection_name: 
     else:
         raise NameError("collection_name doesn't exist on selected database")
 
-def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str ,data: float) -> bool:
+def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str, data: float) -> bool:
     if type(select_collection) != pymongo.collection.Collection:
         raise TypeError("select_collection MUST be of type pymongo.collection.Collection")
     elif type(node_name) != str:
@@ -36,7 +36,7 @@ def insert_into_collection(select_collection: pymongo.collection.Collection, nod
     })
     return result.acknowledged
 
-def connect_to_broker(address: str, client_name: str,message_function, timeout=30) -> mqtt.Client:
+def connect_to_broker(address: str, client_name: str, message_function, timeout=30) -> mqtt.Client:
     mqtt_client = mqtt.Client(client_name)
     mqtt_client.CONNECTION_TIMEOUT_DEFAULT = timeout
     mqtt_client.on_message = message_function #attach function to callback
