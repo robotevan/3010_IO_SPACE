@@ -70,12 +70,12 @@ if __name__ == "__main__":
     collection = get_collection(database, "test")
     client = connect_to_broker(BROKER_ADDRESS, on_message)
 
-    subscribe(client, ECHO_TOPIC)
+    subscribe(client, ECHO_TOPIC, 0)
 
     start_mqtt_thread(client)
     while True:
         for temp in TEMP_LIST:
-            print("Is message published: ",publish(client, SEND_TOPIC, temp))
+            print("Is message published: ",publish(client, SEND_TOPIC, temp, 0))
             time.sleep(5)
     stop_mqtt_thread(client)
             
