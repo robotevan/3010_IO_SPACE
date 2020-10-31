@@ -4,18 +4,30 @@ import datetime
 import time
 
 def connect_to_database(connection_string: str, database_name: str) -> pymongo.database.Database:
-    try:
-        mongo = pymongo.MongoClient(connection_string, serverSelectionTimeoutMS=2000)
-        mongo.server_info()
+    mongo = pymongo.MongoClient(connection_string, serverSelectionTimeoutMS=2000)
+    db_names = mongo.list_database_names()
+    if database_name in db_names:
         return mongo[database_name]
-    except pymongo.errors.ServerSelectionTimeoutError as error:
-        print ("Unable to connect to mongodb server ERROR:", error)
-        return None
+    else:
+        raise NameError("database_name doesn't exist on server")
 
 def get_collection(select_database: pymongo.database.Database, collection_name: str) -> pymongo.collection.Collection:
-    return select_database[collection_name]
+    collection_names = select_database.list_collection_names()
+    if collection_name in collection_names:
+        return select_database[collection_name]
+    else:
+        raise NameError("collection_name doesn't exist on selected database")
 
 def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str ,data: int) -> bool:
+    if type(select_collection) != pymongo.collection.Collection:
+        raise TypeError("select_collection MUST be of type pymongo.collection.Collection")
+    elif type(node_name) != str:
+        raise TypeError("node_name MUST be a string")
+    elif type(device_name) != str:
+        raise TypeError("device_name MUST be a string")
+    elif type(data) != int:
+        raise TypeError("data MUST be an int")
+
     result = select_collection.insert_one({
         "node_name": node_name,
         "device_name": device_name,
@@ -24,15 +36,12 @@ def insert_into_collection(select_collection: pymongo.collection.Collection, nod
     })
     return result.acknowledged
 
-def connect_to_broker(address: str, message_function) -> mqtt.Client:
-    try:
-        mqtt_client = mqtt.Client("backend")
-        mqtt_client.on_message = message_function #attach function to callback
-        mqtt_client.connect(address)
-        return mqtt_client
-    except ConnectionRefusedError as error:
-        print("Unable to connect to broker ERROR: ", error)
-        return None
+def connect_to_broker(address: str, client_name: str,message_function, timeout=30) -> mqtt.Client:
+    mqtt_client = mqtt.Client(client_name)
+    mqtt_client.CONNECTION_TIMEOUT_DEFAULT = timeout
+    mqtt_client.on_message = message_function #attach function to callback
+    mqtt_client.connect(address)
+    return mqtt_client
 
 #Called when a message from subscribed topics is received from broker on client
 def on_message(client, userdata, message):
@@ -53,6 +62,9 @@ def publish(mqtt_client: mqtt.Client, topic: str, message: str, qos:int) -> bool
     result.wait_for_publish()
     return result.is_published()
 
+def disconnect(mqtt_client: mqtt.Client):
+    return mqtt_client.disconnect()
+
 def start_mqtt_thread(mqtt_client: mqtt.Client):
     mqtt_client.loop_start()
 
@@ -68,7 +80,8 @@ if __name__ == "__main__":
     
     database = connect_to_database(CONNECTION_STRING, "iospace")
     collection = get_collection(database, "test")
-    client = connect_to_broker(BROKER_ADDRESS, on_message)
+
+    client = connect_to_broker(BROKER_ADDRESS, "demo" ,on_message)
 
     subscribe(client, ECHO_TOPIC, 0)
 
@@ -78,5 +91,3 @@ if __name__ == "__main__":
             print("Is message published: ",publish(client, SEND_TOPIC, temp, 0))
             time.sleep(5)
     stop_mqtt_thread(client)
-            
-
