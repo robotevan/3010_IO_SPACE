@@ -9,7 +9,7 @@ BROKER_ADDRESS = "192.168.1.15"
 
 mqtt_client = api.connect_to_broker(BROKER_ADDRESS, MQTT_CLIENT_NAME, api.on_message)
 iospace_database = api.connect_to_database(CONNECTION_STRING, "iospace")
-test_collection = api.get_collection(iospace_database, "test")
+test_collection = api.get_collection(iospace_database, "test_unit_test")
 
 class TestMqttCommunication(unittest.TestCase):
 
