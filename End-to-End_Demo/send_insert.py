@@ -49,7 +49,7 @@ def on_message(client, userdata, message):
     print("message topic =",message.topic)
     print("message qos =",message.qos)
     print("message retain flag =",message.retain)
-    print("Is data inserted into db: ", insert_into_collection(collection, int(message.payload.decode("utf-8"))))
+    print("Is data inserted into db: ", insert_into_collection(collection, "node_test" , "temperature_sim", int(message.payload.decode("utf-8"))))
 
 def subscribe(mqtt_client: mqtt.Client, topic: str, qos:int) -> tuple:
     return mqtt_client.subscribe(topic, qos)
