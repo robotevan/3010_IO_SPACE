@@ -15,10 +15,10 @@ def connect_to_database(connection_string: str, database_name: str) -> pymongo.d
 def get_collection(select_database: pymongo.database.Database, collection_name: str) -> pymongo.collection.Collection:
     return select_database[collection_name]
 
-def insert_into_collection(select_collection: pymongo.collection.Collection, data: int) -> bool:
+def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str ,data: int) -> bool:
     result = select_collection.insert_one({
-        "node_name": "node1",
-        "device_name": "temperature",
+        "node_name": node_name,
+        "device_name": device_name,
         "data": data,
         "date": datetime.datetime.now()
     })
@@ -26,10 +26,10 @@ def insert_into_collection(select_collection: pymongo.collection.Collection, dat
 
 def connect_to_broker(address: str, message_function) -> mqtt.Client:
     try:
-        client = mqtt.Client("backend")
-        client.on_message = message_function #attach function to callback
-        client.connect(address)
-        return client
+        mqtt_client = mqtt.Client("backend")
+        mqtt_client.on_message = message_function #attach function to callback
+        mqtt_client.connect(address)
+        return mqtt_client
     except ConnectionRefusedError as error:
         print("Unable to connect to broker ERROR: ", error)
         return None
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     start_mqtt_thread(client)
     while True:
         for temp in TEMP_LIST:
-            print("Is message publsihed: ",publish(client, SEND_TOPIC, temp))
+            print("Is message published: ",publish(client, SEND_TOPIC, temp))
             time.sleep(5)
     stop_mqtt_thread(client)
             
