@@ -11,4 +11,5 @@ server.login("testcasesg@gmail.com","123456789Ou*")
 def sendemail(email_text,reciever):
     server.sendmail("testcasesg@gmail.com",reciever,email_text)
     print("sending an email with text : ",email_text,"to ",reciever)
-sendemail("this is a test email","evanpelletier3@cmail.carleton.ca")
+    return True
+
