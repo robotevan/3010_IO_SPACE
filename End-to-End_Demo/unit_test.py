@@ -79,7 +79,8 @@ class TestMongoDB(unittest.TestCase):
 
     def test_insert_bad_data_type(self):
         bad_data = "int"
-        self.assertFalse(api.insert_into_collection(test_collection, "test_node", "test_case", bad_data))
+        with self.assertRaises(TypeError):
+            api.insert_into_collection(test_collection, "test_node", "test_case", bad_data)
 
     def test_insert_bad_device_name_type(self):
         bad_device_name = 1
