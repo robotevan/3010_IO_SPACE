@@ -1,0 +1,1 @@
+#MQTT backend authentication script
