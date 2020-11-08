@@ -2,6 +2,7 @@
 import unittest
 import send_insert as api
 import time
+import email_tests as email
 
 MQTT_CLIENT_NAME = "test"
 CONNECTION_STRING = "mongodb://192.168.1.48:27017"
@@ -79,8 +80,7 @@ class TestMongoDB(unittest.TestCase):
 
     def test_insert_bad_data_type(self):
         bad_data = "int"
-        with self.assertRaises(TypeError):
-            api.insert_into_collection(test_collection, "test_node", "test_case", bad_data)
+        self.assertFalse(api.insert_into_collection(test_collection, "test_node", "test_case", bad_data))
 
     def test_insert_bad_device_name_type(self):
         bad_device_name = 1
@@ -96,6 +96,15 @@ class TestMongoDB(unittest.TestCase):
         bad_collection = "collection"
         with self.assertRaises(TypeError):
             api.insert_into_collection(bad_collection, "test_node", "test_case", 1)
+
+class Testemailserves(unittest.TestCase):
+    def test_sendemail(self):
+        self.assertTrue( email.sendemail("test","ousama_shami@hotmail.com"))
+
+
+
+
+
 
 
 if __name__ == '__main__':
