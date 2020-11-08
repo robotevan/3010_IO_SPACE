@@ -18,15 +18,20 @@ def get_collection(select_database: pymongo.database.Database, collection_name: 
     else:
         raise NameError("collection_name doesn't exist on selected database")
 
-def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str, data: float) -> bool:
+def insert_into_collection(select_collection: pymongo.collection.Collection, node_name: str, device_name: str, data: str) -> bool:
+
     if type(select_collection) != pymongo.collection.Collection:
         raise TypeError("select_collection MUST be of type pymongo.collection.Collection")
     elif type(node_name) != str:
         raise TypeError("node_name MUST be a string")
     elif type(device_name) != str:
         raise TypeError("device_name MUST be a string")
-    elif type(data) != float:
-        raise TypeError("data MUST be a float")
+
+    try:
+        data = float(data)
+    except:
+        print("data string cannot be converted into a float!")
+        return False
 
     result = select_collection.insert_one({
         "node_name": node_name,
@@ -88,6 +93,6 @@ if __name__ == "__main__":
     start_mqtt_thread(client)
     while True:
         for temp in TEMP_LIST:
-            #print("Is message published: ",publish(client, SEND_TOPIC, temp, 0))
+            print("Is message published: ",publish(client, SEND_TOPIC, temp, 0))
             time.sleep(5)
     stop_mqtt_thread(client)
