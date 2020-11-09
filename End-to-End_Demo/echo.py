@@ -9,10 +9,10 @@ def on_message(client, userdata, message):
     print("Publishing message to topic","testecho")
     client.publish("testecho",str(message.payload.decode("utf-8")))
     
-broker_address="192.168.1.15"
+broker_address="198.91.181.118"
 
 print("creating new instance")
-client = mqtt.Client("node")
+client = mqtt.Client("Evan")
 
 client.on_message=on_message #attach function to callback
 

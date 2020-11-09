@@ -4,7 +4,8 @@ server = smtplib.SMTP("smtp.gmail.com",587)
 server.ehlo()
 server.starttls(context=context)
 server.ehlo()
-server.login("testcasesg@gmail.com","123456789Ou*")
+# Test credentials
+server.login("testcasesg@gmail.com", "123456789Ou*")
 #server.sendmail("testcasesg@gmail.com","ousamashami1999@gmail.com","hey, how are you")
 #server.quit()
 
