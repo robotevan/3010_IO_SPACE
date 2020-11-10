@@ -4,16 +4,7 @@ import Device from './Device'
 
 
 class DeviceBar extends Component{
-    state = {
-        devices: []
-    }
-    constructor(){
-        super()
-        // Fetch initial list of sensors in the database
-        fetch(window.location.pathname).then(res => res.json()).then(data => {
-            this.setState({devices: data.devices});
-          })
-    }
+    state = {devices: []}
 
     // When component is loaded start polling database every 10 seconds, checking if sensors updated
     async componentDidMount(){
@@ -21,7 +12,7 @@ class DeviceBar extends Component{
             fetch(window.location.pathname).then(res => res.json()).then(data => {
                 this.setState({devices: data.devices});
               })
-        }, 10000);
+        }, 4000);
     }
 
     render(){
@@ -31,7 +22,7 @@ class DeviceBar extends Component{
                 <div className="DeviceList">
                     {
                         this.state.devices.map((device)=> (
-                            <Device key={device.deviceID} deviceData={device}/>
+                            <Device key={device.deviceId} deviceData={device}/>
                         ))                        
                     }
                 </div>

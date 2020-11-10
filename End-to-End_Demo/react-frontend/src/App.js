@@ -4,7 +4,7 @@ import DeviceBar from './Components/DeviceBar'
 function App() {
     return(
       <div className="App">
-        <DeviceBar />
+        <DeviceBar key="test"/>
       </div>
     )
 }

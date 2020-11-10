@@ -4,21 +4,25 @@ import '../Styles.css'
 class Device extends Component{
     constructor(props){
         super(props)
-        this.nodeId = props.deviceData.nodeId;
-        this.deviceId = props.deviceData.deviceId;
-        this.deviceName = props.deviceData.deviceName;
-        this.deviceType = props.deviceData.deviceType;
-        console.log(this.deviceName)
+        this.state = {
+            nodeId: props.deviceData.nodeId,
+            deviceId: props.deviceData.deviceId,
+            deviceName: props.deviceData.deviceName,
+            deviceType: props.deviceData.deviceType,
+            deviceVal: props.deviceData.deviceCurrVal,
+            latestUpdate: props.deviceData.timeStamp
+        }
     }
+    
     render(){
         return(
             <div className="Device">
-                <div className="DeviceTitleContainer" style={{'display': 'flex'}}>
-                    <div className="DeviceIdContainer TitleRoundContainer">Node {this.nodeId}</div>
-                    <div className="DeviceTypeContainer TitleRoundContainer">{this.deviceType}</div>
-                    <div className="DeviceNameContainer TitleRoundContainer">{this.deviceName}</div>
+                <div className="DeviceTitleContainer flex-container wrap" style={{'display': 'flex'}}>
+                    <div className="DeviceIdContainer TitleRoundContainer">{this.state.nodeId}</div>
+                    <div className="DeviceNameContainer TitleRoundContainer">{this.state.deviceName}</div>
+                    <div className="DeviceTypeContainer TitleRoundContainer">{this.state.deviceType}</div>     
                 </div>
-                <div className="DeviceTitle">Current Data: {this.props.deviceData.deviceId}</div>
+                <div className="DeviceTitle">Current Data: {this.state.deviceVal}</div>
             </div>
         )
     }
