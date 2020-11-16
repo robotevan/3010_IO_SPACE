@@ -24,7 +24,8 @@ def get_user_nodes(api_key):
                 device_collection_type = "_feedback"
             device_collection = db[api_key+device_collection_type]
             device_info = device_collection.find_one({'device_name': device_name, 'node_name': node_name},
-                                                     sort=[('_id', pymongo.DESCENDING)])
+                                                     sort=[('_id', pymongo.ASCENDING)])
+            # TODO: Revert to DESCENTING ^^^^
             # Set the device fields
             try:
                 device_curr_val = device_info['data']
@@ -34,15 +35,21 @@ def get_user_nodes(api_key):
                 device_curr_time = 0
             # Append device json description to list
             device_lst.append({'nodeId': node_name, 'deviceId': len(device_lst), 'deviceType': device_type,
-                               'deviceName': device_name, 'deviceCurrVal': device_curr_val, 'timestamp': device_curr_time})
+                               'deviceName': device_name, 'deviceCurrVal': device_curr_val,
+                               'timestamp': device_curr_time})
     return {'devices': device_lst}
 
 
-@app.route('/test', methods=['GET'])
-def fetch_devices():
-    devices = get_user_nodes('test')
-    print(devices)
-    return devices
+@app.route('/api/<api_key>', methods=['GET'])
+def fetch_devices(api_key):
+    try:
+        devices = get_user_nodes(api_key)
+        print(devices)
+        return devices
+    except Exception:
+        return {'devices': 'NoneFound'}
+
+
 
 
 if __name__ == '__main__':
