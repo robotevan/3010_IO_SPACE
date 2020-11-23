@@ -3,7 +3,7 @@ import iospaceAPI as api
 import unittest
 import time
 
-BROKER_ADDRESS = "192.168.1.15"
+BROKER_ADDRESS = "198.91.181.118"
 mqtt_instance = api.MQTT(BROKER_ADDRESS, "test")
 
 class TestClientMQTT(unittest.TestCase):
