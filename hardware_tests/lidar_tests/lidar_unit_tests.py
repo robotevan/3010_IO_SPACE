@@ -214,7 +214,7 @@ class LidarLiteHardware(unittest.TestCase):
 
     def test_device_health(self):
         device_health = lidar_sensor.read_device_config()[5]
-        self.assertEqual(device_health, 1)
+        self.assertEqual(device_health, 0)
 
     def test_read_ready(self):
         device_ready = lidar_sensor.read_device_status()
