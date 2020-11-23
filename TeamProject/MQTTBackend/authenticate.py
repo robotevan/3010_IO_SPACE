@@ -9,6 +9,7 @@ SUB_TOPIC = "Authenticate/*"
 #Function call when a message is received
 def on_message(client, userdata, message):
     print("Message on Topic: ", message.topic, " QoS: ", message.qos)
+    message = message.payload.decode("utf-8")
     print("Data: " ,str(message.payload.decode("utf-8")), "\n")
     topic_list = parse_topic(message.topic)
 
@@ -16,7 +17,7 @@ def on_message(client, userdata, message):
         print("Invalid API Key")
         api.publish(client, construct_topic(topic_list), "ERROR: bad_api_key", 1) #Return error message back to node
         return 0
-    else:
+    elif message == "connection_request":
         if len(topic_list) == 3: #Topic of 3 elements is a node trying to connect
             node_check(database, "user_data", topic_list[1], topic_list[2])
         elif len(topic_list) == 5: #Topic of 5 elements is a device trying to connect
