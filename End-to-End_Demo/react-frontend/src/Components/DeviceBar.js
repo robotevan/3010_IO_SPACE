@@ -12,7 +12,7 @@ class DeviceBar extends Component{
         if (this.state.connected){
             return("My Devices: ")
         }else{
-            return("please enter a valid device name in the url api/<apikey>")
+            return("Please enter a valid device name in the url api/<apikey>")
         }
 
     }
