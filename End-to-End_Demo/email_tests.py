@@ -13,4 +13,5 @@ def sendemail(email_text,reciever):
     server.sendmail("testcasesg@gmail.com",reciever,email_text)
     print("sending an email with text : ",email_text,"to ",reciever)
     return True
-
+if __name__== "__main__":
+    sendemail("test", "ousama_shami@hotmail.com")

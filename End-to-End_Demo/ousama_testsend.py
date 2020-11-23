@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt
 import time
 import random
 
-#address of mqtt server
+#address of mqtt server,this is majed's address on the internet
 broker_address = "198.91.181.118"
 #connecting to server as ousama
 print("creating new instance")
