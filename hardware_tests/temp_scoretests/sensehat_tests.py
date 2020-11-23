@@ -1,7 +1,7 @@
-from sense_emu import SenseHat
+from hardware_tests.temp_scoretests.sense import sense
 import unittest
 
-sensehat=SenseHat()
+sensehat=sense()
 class TestSenseHat(unittest.TestCase):
     def test_createsensehat(self):
         self.assertIsNotNone(sensehat)
