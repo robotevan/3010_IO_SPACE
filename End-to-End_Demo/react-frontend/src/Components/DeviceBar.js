@@ -33,7 +33,7 @@ class DeviceBar extends Component{
             fetch(window.location.pathname).then(res => res.json()).then(data => {
                 this.update(data)
               })
-        }, 4000);
+        }, 10000);
     }
 
     render(){
