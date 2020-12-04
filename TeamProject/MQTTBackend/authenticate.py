@@ -1,5 +1,7 @@
 #MQTT backend authentication script
-import backendAPI as api
+#Checks if newly connected nodes or devices are in the system, if not it adds them
+
+import backendAPI as api #API module to access and interface with our projects MQTT and MongoDB server
 
 #Connection Fields
 CONNECTION_STRING = "mongodb://192.168.1.48:27017"
@@ -19,9 +21,11 @@ def on_message(client, userdata, message):
         return 0
     elif message == "connection_request":
         if len(topic_list) == 3: #Topic of 3 elements is a node trying to connect
-            node_check(database, "user_data", topic_list[1], topic_list[2])
+            if node_check(database, "user_data", topic_list[1], topic_list[2]):
+                api.publish(construct_topic(topic_list), "connection_accepted", 1)
         elif len(topic_list) == 5: #Topic of 5 elements is a device trying to connect
-            device_check(database, "user_data", topic_list[1], topic_list[2], topic_list[3])
+            if device_check(database, "user_data", topic_list[1], topic_list[2], topic_list[3]):
+                api.publish(construct_topic(topic_list), "connection_accepted", 1)
         else: #Any other topic setup is invalid
             print("invalid topic!")
             #Return error message back to node
@@ -46,10 +50,6 @@ def check_API_key(database, collection_name, api_key):
 def node_check(database, collection_name, api_key, node_name):
     user_doc = database[collection_name].find_one( {"api_key" : api_key} ) #pull user data using api key
 
-    if user_doc is None:
-        print("Cannot find users data under API: ", api_key, "\n")
-        return False
-
     if type(user_doc["nodes"]) == list: #verify database nodes entry is a list
         if node_name in user_doc["nodes"]: #checks if the node is in the users nodes entry
             print(node_name, " found in database.")
@@ -58,7 +58,7 @@ def node_check(database, collection_name, api_key, node_name):
             if len(user_doc["nodes"]) == len(user_doc["devices"]) and type(user_doc["devices"]) == list:
                 user_doc["nodes"].append(node_name)
                 user_doc["devices"].append([])
-                database[collection_name].update_one({"_id" : user_doc ["_id"]}, { "$set" : {"nodes" : user_doc["nodes"], "devices": user_doc["devices"]} })
+                database[collection_name].update_one({"_id" : user_doc ["_id"]}, { "$set" : {"nodes" : user_doc["nodes"], "devices": user_doc["devices"]}})
                 print(node_name, " added to database")
                 return True
             else:
@@ -72,10 +72,6 @@ def node_check(database, collection_name, api_key, node_name):
 def device_check(database, collection_name,api_key, node_name, device_type, device_name) -> bool:
     user_doc = database[collection_name].find_one({"api_key": api_key}) #pull user data using api key
     device = ":".join([device_type, device_name]) #creates a string following "device_type:device_name: format
-
-    if user_doc is None:
-        print("Cannot find users data under API: ", api_key, "\n")
-        return False
 
     if type(user_doc["devices"]) == list:
         try: #fetch the nodes index and use it to get the device index
@@ -102,7 +98,6 @@ def device_check(database, collection_name,api_key, node_name, device_type, devi
 #Script Start#
 #Connecting to database
 database = api.connect_to_database(CONNECTION_STRING, "iospace")
-user_data = api.get_collection(database, "user_data")
 
 #Connecting to broker and subscribe to SUB_TOPIC
 client = api.connect_to_broker(BROKER_ADDRESS, "authenticate", on_message)
