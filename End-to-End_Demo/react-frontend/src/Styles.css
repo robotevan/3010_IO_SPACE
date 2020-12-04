@@ -1,0 +1,75 @@
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-color: #131417;
+    font-family: Montserrat;
+  }
+
+.DeviceBar{
+    float: right;
+    width: 20%;
+    height: 100%;
+    background-color: white;
+    opacity: 90%;
+    float: right;
+    overflow-y: scroll;
+}
+
+.DeviceBarHeader{
+    margin: 0%;
+    padding: 0%;
+    font-size: 2vw;
+    font-weight: 500;
+    color: #131417;
+    border-bottom: white solid;
+    font-weight: 700;
+}
+
+.flex-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    -ms-box-orient: horizontal;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.wrap    { 
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}  
+
+
+
+.Device{
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    padding:10px;
+    border: solid #ed1f7c 2px;
+    background-color: #131417;
+    color: white;
+    font-size: 1vw;
+    transition: transform 0.1s;
+}
+.Device:hover{
+    transform: translate(-10px, -0);
+}
+
+.TitleRoundContainer{
+    display: inline;
+    padding: 10px;
+    background-color: white;
+    border-radius: 40px;
+    text-align: center;
+    margin-right: 5px;
+    margin-top: 3px;
+    color: black;
+    font-style: 0.8vw;
+}

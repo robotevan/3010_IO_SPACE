@@ -97,14 +97,9 @@ class TestMongoDB(unittest.TestCase):
         with self.assertRaises(TypeError):
             api.insert_into_collection(bad_collection, "test_node", "test_case", 1)
 
-class Testemailserves(unittest.TestCase):
+class TestEmailserves(unittest.TestCase):
     def test_sendemail(self):
         self.assertTrue( email.sendemail("test","ousama_shami@hotmail.com"))
-
-
-
-
-
 
 
 if __name__ == '__main__':
