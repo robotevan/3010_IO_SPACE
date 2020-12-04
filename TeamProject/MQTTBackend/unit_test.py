@@ -19,7 +19,7 @@ mqtt_client = api.connect_to_broker(BROKER_ADDRESS, MQTT_CLIENT_NAME, on_message
 iospace_database = api.connect_to_database(CONNECTION_STRING, "iospace")
 test_collection = api.get_collection(iospace_database, "test_unit_test")
 
-class TestBackendFunctions(unittest.TestCase):
+class TestBackendMQTT(unittest.TestCase):
 
     def test_mqtt_connect(self):
         api.start_mqtt_thread(mqtt_client)
