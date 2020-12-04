@@ -1,6 +1,7 @@
-#IOSpace Client Side API
+# IOSpace Client Side API
 import paho.mqtt.client as mqtt
 import multiprocessing
+
 
 class MQTT:
 
@@ -83,10 +84,10 @@ class Node:
         print("Message on Topic: ", message.topic, " QoS: ", message.qos)
         msg = message.payload.decode("utf-8")
         print("Message:", message, "\n")
-        #topic_list = self.parse_topic(message.topic)
+        # topic_list = self.parse_topic(message.topic)
 
         if msg == "connection_accepted":
-            #self.node_ready = True
+            # self.node_ready = True
             print()
 
     def wait_for_response(self):
@@ -115,13 +116,14 @@ class Node:
         self.MQTT.stop_mqtt_thread()
         return True
 
+
 class Device:
 
     def __init__(self, apikey, node_name, address, device_type, device_name):
         self.device_ready = False
         self.device_type = device_type
         self.device_name = device_name
-        #self.device_function = device_function
+        # self.device_function = device_function
         self.client = MQTT(apikey, address)
         self.device_ready = self.authenticate_device_request()
 
@@ -131,10 +133,10 @@ class Device:
     def start_device(self):
         return False
 
+
 if __name__ == "__main__":
     MQTT("192.168.1.15", "test12")
-    #m = Node("test", "node1","192.168.1.15")
-    #Device("test", "node1", "localhost", "feedback", "light" )
-    #m.subscribe("test", 1)
-    #m.forever_mqtt_thread()
-
+    # m = Node("test", "node1","192.168.1.15")
+    # Device("test", "node1", "localhost", "feedback", "light" )
+    # m.subscribe("test", 1)
+    # m.forever_mqtt_thread()
