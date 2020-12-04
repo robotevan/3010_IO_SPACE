@@ -61,7 +61,7 @@ def unsubscribe(mqtt_client: mqtt.Client, topic: str) -> tuple:
 
 def publish(mqtt_client: mqtt.Client, topic: str, message: str, qos: int) -> bool:
     result = mqtt_client.publish(topic, message, qos)
-    result.wait_for_publish()
+    #result.wait_for_publish()
     print("Publishing ", message, " on ", topic, " QoS: ", qos)
     return result.is_published()
 
@@ -81,5 +81,14 @@ def forever_mqtt_thread(mqtt_client: mqtt.Client):
     print("Listening to for messages indefinitely...")
     mqtt_client.loop_forever()
 
-def query_collection(database, collection_name, field, data) -> bool:
-    return False
+#Splits a topic into a list
+def parse_topic(topic: str) -> list:
+    return topic.split("/")
+
+#Splits a topic into a list
+def parse_msg(msg: str) -> list:
+    return msg.split(":")
+
+#Reassmbels topic back into a string
+def construct_topic(topic_list: list) -> str:
+    return "/".join(topic_list)
