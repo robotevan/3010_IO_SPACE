@@ -54,8 +54,7 @@ def fetch_devices(api_key):
         return {'devices': 'NoneFound'}
 
 @app.route('/api/generate_apikey/<email>') #will get the email from teh client
-def create_user_apikey(email): #
-    sendemail("api_key",email)# this will send the api to the user
+def create_user_apikey(email):
     rand_char=[lambda : random.choice(string.ascii_lowercase),lambda: random.randint(0,9)]
 
     while True: #keeps on looping until finds a unique api key
@@ -69,6 +68,7 @@ def create_user_apikey(email): #
                       "nodes":[],
                       "devices":[]}
             db["user_data"].insert_one(new_data)
+            sendemail("ypu new api key will be as follows: " +api_key, email)  # this will send the api to the user
             break
 
 
