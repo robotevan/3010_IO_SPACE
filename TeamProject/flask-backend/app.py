@@ -61,14 +61,14 @@ def create_user_apikey(email):
         api_key=""
         for i in range(APIKEY_LENGTH):    ##generate random values
             api_key+= str(random.choice(rand_char)())
-        data_base_api_key = db["user_data"].find_one({"api_key":api_key})
+        data_base_api_key = db["user_data"].find_one({"api_key":api_key,"email":email})
         if data_base_api_key is None:
             new_data={"email":email,
                       "api_key":api_key,
                       "nodes":[],
                       "devices":[]}
             db["user_data"].insert_one(new_data)
-            sendemail("ypu new api key will be as follows: " +api_key, email)  # this will send the api to the user
+            sendemail("your new api key will be as follows: " +api_key, email)  # this will send the api to the user
             break
 
 
