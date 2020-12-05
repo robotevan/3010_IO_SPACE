@@ -6,11 +6,14 @@ server.starttls(context=context)
 server.ehlo()
 # Test credentials
 server.login("testcasesg@gmail.com", "123456789Ou*")
-#server.sendmail("testcasesg@gmail.com","ousamashami1999@gmail.com","hey, how are you")
-#server.quit()
+subject=" WELCOME TO EVAGED-Api key"
+txt="Hey thank you for signing up with Evaged here is your api key"
+email_text= f"Subject:{subject}\n\n{txt}"
+server.sendmail("testcasesg@gmail.com","ousama_shami@hotmail.com",email_text)
+server.quit()
 
-def sendemail(email_text,reciever):
-    server.sendmail("testcasesg@gmail.com",reciever,email_text)
-    print("sending an email with text : ",email_text,"to ",reciever)
-    return True
+#def sendemail(email_text,reciever):
+ #   server.sendmail("testcasesg@gmail.com",reciever,email_text)
+  #  print("sending an email with text : ",email_text,"to ",reciever)
+   # return True
 
