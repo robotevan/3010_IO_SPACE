@@ -17,7 +17,7 @@ class NewUser extends Component{
 
     createUserApiKey = () =>{
         fetch("/newUser/user?email="+ this.state.email).then(res => res.json()).then(data => {
-            if (data["success"] == false){
+            if (data["success"] === false){
                 window.alert("The email you have entered is already registered!");
             }
         })

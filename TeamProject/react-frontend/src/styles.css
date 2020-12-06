@@ -103,6 +103,7 @@ p{
 }
 
 .CardText{
+    user-select: none;
     padding-left: 15px;
     color: black;
     background-color: white;
@@ -115,8 +116,10 @@ p{
 
 #OnButton{
     background-color: yellowgreen;
+    outline: none;
 }
 
 #OffButton{
     background-color: rgb(145, 30, 30);
+    outline: none;
 }
