@@ -1,12 +1,15 @@
 from flask import Flask
 import pymongo
-from TeamProject.email_tests import sendemail
+from TeamProject.email_services import send_email
 import random
 import string
-APIKEY_LENGTH=12
+APIKEY_LENGTH = 12
 app = Flask("__name__")
 client = pymongo.MongoClient("mongodb://192.168.1.48:27017")
 db = client['iospace']
+EMAIL_NOTIFICATION_SUBJECT = "IOSpace API Key"
+EMAIL_NOTIFICATION_TEXT = "Below is your new IO Space API key, keep a copy of this on your local machine. This key" \
+                          "will be the way you connect to your IO Space!\n \n"
 
 
 def get_user_nodes(api_key):
@@ -53,22 +56,23 @@ def fetch_devices(api_key):
     except Exception:
         return {'devices': 'NoneFound'}
 
-@app.route('/api/generate_apikey/<email>') #will get the email from teh client
-def create_user_apikey(email):
-    rand_char=[lambda : random.choice(string.ascii_lowercase),lambda: random.randint(0,9)]
 
-    while True: #keeps on looping until finds a unique api key
+@app.route('/api/generate_apikey/<email>')  # will get the email from teh client
+def create_user_apikey(email):
+    rand_char = [lambda: random.choice(string.ascii_lowercase), lambda: random.randint(0, 9)]
+
+    while True:  # keeps on looping until finds a unique api key
         api_key=""
-        for i in range(APIKEY_LENGTH):    ##generate random values
+        for i in range(APIKEY_LENGTH):  # generate random values
             api_key+= str(random.choice(rand_char)())
         data_base_api_key = db["user_data"].find_one({"api_key":api_key,"email":email})
         if data_base_api_key is None:
-            new_data={"email":email,
-                      "api_key":api_key,
-                      "nodes":[],
-                      "devices":[]}
+            new_data={"email": email,
+                      "api_key": api_key,
+                      "nodes": [],
+                      "devices": []}
             db["user_data"].insert_one(new_data)
-            sendemail("your new api key will be as follows: " +api_key, email)  # this will send the api to the user
+            send_email("your new api key will be as follows: " + api_key, email)  # this will send the api to the user
             break
 
 
