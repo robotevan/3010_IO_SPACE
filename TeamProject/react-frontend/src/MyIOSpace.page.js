@@ -1,4 +1,6 @@
 import {Component} from 'react';
+import DeviceBar from './Components/DeviceBar'
+
 
 class MyIOSpace extends Component{
     constructor(props){
@@ -8,7 +10,7 @@ class MyIOSpace extends Component{
     render(){
         return(
             <div>
-                <h1>This is My IO space page</h1>
+                <DeviceBar />
             </div>
         )
     }
