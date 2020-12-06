@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import  request
 import pymongo
 from TeamProject.email_services import send_email
 import random
@@ -47,8 +48,22 @@ def get_user_nodes(api_key):
     return {'devices': device_lst}
 
 
+@app.route('/login/user', methods= ["GET"])
+def verify_login():
+    try:
+        api_key = request.args.get('api_key')  # Fetch the api provided by the user
+        if db['user_data'].find_one({"api_key": api_key}) is not None:
+            return {"valid_user": True}
+        else:
+            return {"valid_user": False}
+    except Exception:
+        return {"valid_user": False}
+
+
+
 @app.route('/api/<api_key>', methods=['GET'])
 def fetch_devices(api_key):
+    print("imhere")
     try:
         devices = get_user_nodes(api_key)
         print(devices)
@@ -72,7 +87,8 @@ def create_user_apikey(email):
                       "nodes": [],
                       "devices": []}
             db["user_data"].insert_one(new_data)
-            send_email("your new api key will be as follows: " + api_key, email)  # this will send the api to the user
+            # Send an email to the user, containing the API key
+            send_email(EMAIL_NOTIFICATION_SUBJECT, EMAIL_NOTIFICATION_TEXT + api_key, email)
             break
 
 
