@@ -6,6 +6,8 @@ import NewUser from './newUser.page';
 import MyIOSpace from './myIOSpace.page';
 import {BrowserRouter, Route} from 'react-router-dom';
 
+import "./styles.css"
+
 function App(){
     return(
         <div>
