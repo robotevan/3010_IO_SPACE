@@ -60,6 +60,26 @@ def verify_login():
         return {"valid_user": False}
 
 
+@app.route('/newUser/user')
+def create_user_apikey():
+    email = request.args.get("email")  # Fetch provided email
+    # List containing 2 lambda functions, one to get rand int, one for rand char
+    rand_char = [lambda: random.choice(string.ascii_lowercase), lambda: random.randint(0, 9)]
+    while True:  # keeps on looping until finds a unique api key
+        api_key = ""
+        for i in range(APIKEY_LENGTH):  # generate random values
+            api_key += str(random.choice(rand_char)())
+        data_base_api_key = db["user_data"].find_one({"api_key":api_key,"email":email})
+        if data_base_api_key is None:
+            new_data={"email": email,
+                      "api_key": api_key,
+                      "nodes": [],
+                      "devices": []}
+            db["user_data"].insert_one(new_data)
+            # Send an email to the user, containing the API key
+            send_email(EMAIL_NOTIFICATION_SUBJECT, EMAIL_NOTIFICATION_TEXT + api_key, email)
+            break
+
 
 @app.route('/api/<api_key>', methods=['GET'])
 def fetch_devices(api_key):
@@ -72,24 +92,6 @@ def fetch_devices(api_key):
         return {'devices': 'NoneFound'}
 
 
-@app.route('/api/generate_apikey/<email>')  # will get the email from teh client
-def create_user_apikey(email):
-    rand_char = [lambda: random.choice(string.ascii_lowercase), lambda: random.randint(0, 9)]
-
-    while True:  # keeps on looping until finds a unique api key
-        api_key=""
-        for i in range(APIKEY_LENGTH):  # generate random values
-            api_key+= str(random.choice(rand_char)())
-        data_base_api_key = db["user_data"].find_one({"api_key":api_key,"email":email})
-        if data_base_api_key is None:
-            new_data={"email": email,
-                      "api_key": api_key,
-                      "nodes": [],
-                      "devices": []}
-            db["user_data"].insert_one(new_data)
-            # Send an email to the user, containing the API key
-            send_email(EMAIL_NOTIFICATION_SUBJECT, EMAIL_NOTIFICATION_TEXT + api_key, email)
-            break
 
 
 if __name__ == '__main__':
