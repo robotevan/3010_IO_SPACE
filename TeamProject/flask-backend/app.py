@@ -9,8 +9,8 @@ app = Flask("__name__")
 client = pymongo.MongoClient("mongodb://192.168.1.48:27017")
 db = client['iospace']
 EMAIL_NOTIFICATION_SUBJECT = "IOSpace API Key"
-EMAIL_NOTIFICATION_TEXT = "Below is your new IO Space API key, keep a copy of this on your local machine. This key" \
-                          "will be the way you connect to your IO Space!\n \n"
+EMAIL_NOTIFICATION_TEXT = "Below is your new IO Space API key, keep a copy of this on your local machine as you will " \
+                          "need it to add new nodes! This key is what lets you connect to your IO Space!\n \n"
 
 
 def get_user_nodes(api_key):
@@ -48,7 +48,7 @@ def get_user_nodes(api_key):
     return {'devices': device_lst}
 
 
-@app.route('/login/user', methods= ["GET"])
+@app.route('/login/user', methods=["GET"])
 def verify_login():
     try:
         api_key = request.args.get('api_key')  # Fetch the api provided by the user
@@ -63,13 +63,15 @@ def verify_login():
 @app.route('/newUser/user')
 def create_user_apikey():
     email = request.args.get("email")  # Fetch provided email
+    if db["user_data"].find_one({"email": email}) is not None:
+        return {"success": False}  # This email is already in the database!
     # List containing 2 lambda functions, one to get rand int, one for rand char
     rand_char = [lambda: random.choice(string.ascii_lowercase), lambda: random.randint(0, 9)]
     while True:  # keeps on looping until finds a unique api key
         api_key = ""
         for i in range(APIKEY_LENGTH):  # generate random values
             api_key += str(random.choice(rand_char)())
-        data_base_api_key = db["user_data"].find_one({"api_key":api_key,"email":email})
+        data_base_api_key = db["user_data"].find_one({"api_key": api_key})
         if data_base_api_key is None:
             new_data={"email": email,
                       "api_key": api_key,
