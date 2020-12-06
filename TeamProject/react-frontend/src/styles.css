@@ -80,3 +80,18 @@ p{
     border-radius: 8px;
     border-color: white;
 }
+
+
+.SensorAnalytics{
+    position: fixed;
+    height: 100vh;
+}
+
+.DeviceNameHeader{
+    color: white;
+    font-size: 8vmin;
+    margin: 0%;
+    border-bottom: white solid 2px;
+    width: 50vw;
+    padding: 10px;
+}

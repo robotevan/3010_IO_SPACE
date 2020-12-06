@@ -2,15 +2,13 @@ import {Component} from 'react';
 
 
 class SensorAnalytics extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            device_name: this.props.device_name
-        }
-    }
     render(){
         return(
-            <div className="SensorAnalytics"></div>
+            <div className="SensorAnalytics">
+                <h1 className="DeviceNameHeader">{this.props.device_name[1]}</h1>
+            </div>
         )
     }
 }
+
+export default SensorAnalytics;
