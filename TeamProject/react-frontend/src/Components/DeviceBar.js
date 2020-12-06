@@ -4,6 +4,12 @@ import '../styles.css'
 
 
 class DeviceBar extends Component{
+    constructor(props){
+        super(props);
+        fetch(window.location.pathname+window.location.search).then(res => res.json()).then(data => {
+            this.update(data);
+        })
+    }
     state = {devices: []
         }
     intervalId = 0;
@@ -29,7 +35,7 @@ class DeviceBar extends Component{
             fetch(window.location.pathname+window.location.search).then(res => res.json()).then(data => {
                 this.update(data);
               })
-        }, 4000);
+        }, 10000);
     }
 
     async componentWillUnmount(){

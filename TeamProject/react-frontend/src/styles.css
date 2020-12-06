@@ -82,16 +82,41 @@ p{
 }
 
 
-.SensorAnalytics{
-    position: fixed;
+.AnalyticsContainer{
     height: 100vh;
+    width: 80vw;
 }
 
 .DeviceNameHeader{
+    padding: 20px;
     color: white;
     font-size: 8vmin;
     margin: 0%;
     border-bottom: white solid 2px;
-    width: 50vw;
-    padding: 10px;
+}
+
+.CardContainer{
+    background-color: white;
+    margin: 20px;
+    color: black;
+    border-radius: 20px;
+}
+
+.CardText{
+    padding-left: 15px;
+    color: black;
+    background-color: white;
+    margin-right: 20px;
+}
+
+.FeedBackButton{
+    font-size: 3vmin;
+}
+
+#OnButton{
+    background-color: yellowgreen;
+}
+
+#OffButton{
+    background-color: rgb(145, 30, 30);
 }
