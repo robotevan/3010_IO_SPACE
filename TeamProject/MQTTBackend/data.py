@@ -16,17 +16,17 @@ def on_message(client, userdata, message):
 
     if check_user_data(database, "user_data",topic_list[1]) == False: #Check the API Key
         print("Invalid API Key")
+        topic_list[0] = "Data_reply/"
         api.publish(client, construct_topic(topic_list), "ERROR: bad_api_key", 1) #Return error message back to node
         return 0
     try:
         converted_message = float(data_string)
         if len(topic_list) == 4: # Verify topic format
             if not insert_data(database, topic_list[1], topic_list[2], topic_list[3], converted_message):
+                topic_list[0] = "Data_reply/"
                 api.publish(client, construct_topic(topic_list), "Internal Error: failed_data_insertion", 1)
         else: #Any other topic setup is invalid
-            print("invalid topic!")
-            #Return error message back to node
-            api.publish(client, construct_topic(topic_list), "ERROR: bad_topic_format", 1)
+            print("Invalid topic format message ignored!")
             return 0
     except Exception as e:
         print(e)

@@ -8,13 +8,13 @@ import backendAPI as api #API module to access and interface with our projects M
 #Connection Fields
 CONNECTION_STRING = "mongodb://192.168.1.48:27017"
 BROKER_ADDRESS = "192.168.1.15"
-SUB_TOPIC = "Feedback_s/#"
-DEVICE_RECEIVE_TOPIC_HEADER = "Feedback_r"
+SUB_TOPIC = "Feedback/#"
+DEVICE_RECEIVE_TOPIC_HEADER = "Feedback_receive"
 
 #Function call when a message is received
 def on_message(client, userdata, message):
     print("\nMessage on Topic:", message.topic, " QoS:", message.qos)
-    data_string = str(message.payload.decode("utf-8"))
+    data_string = str(message.payload.decode("utf-8")).lower()
     print("Data:" ,data_string, "\n")
     topic_list = api.parse_topic(message.topic)
     msg_list = api.parse_msg(data_string)
@@ -31,7 +31,8 @@ def on_message(client, userdata, message):
             topic_list[0] = DEVICE_RECEIVE_TOPIC_HEADER
             api.publish(client, api.construct_topic(topic_list), "Error: Failed to update feedback device!", 1)
     else:
-        print("Invalid topic received!")
+        print("Invalid topic received, message ignored!")
+        return 0
 
 def check_user_data(database, collection_name, api_key):
     user_doc = database[collection_name].find_one( {"api_key" : api_key} )
@@ -39,7 +40,6 @@ def check_user_data(database, collection_name, api_key):
         return False
     return True if (user_doc["api_key"]) == api_key else False
 
-#Checks if given node exists with in the system
 def update_db_feedback_device(database, api_key, node_name, device_name, data_type, data):
     collection_name = api_key + "_feedback"
     if collection_name not in database.list_collection_names():
@@ -48,8 +48,8 @@ def update_db_feedback_device(database, api_key, node_name, device_name, data_ty
     else:
         feedback_collection = database[collection_name]
         feedback_document = feedback_collection.find_one( {"node_name" : node_name, "device_name" : device_name, "data_type": data_type})
-        if feedback_document == None:
-            print("Device does not exist in database!")
+        if feedback_document is None:
+            print("Error: Device does not exist in database!")
             return False
 
         if data_type.lower() == "switch" and (data.lower() == "on" or data.lower() == "off"):
@@ -67,12 +67,9 @@ def update_db_feedback_device(database, api_key, node_name, device_name, data_ty
             return False
 
 #Script Start#
-#Connecting to database
 database = api.connect_to_database(CONNECTION_STRING, "iospace")
 
-#Connecting to broker and subscribe to SUB_TOPIC
-client = api.connect_to_broker(BROKER_ADDRESS, "data", on_message)
+client = api.connect_to_broker(BROKER_ADDRESS, "feedback2", on_message)
 api.subscribe(client, SUB_TOPIC, 1)
 
-#Starting MQTT thread to listen for incoming messages
 api.forever_mqtt_thread(client)
