@@ -3,7 +3,7 @@ import '../Styles.css'
 
 class Device extends Component{
     render(){
-        const {nodeId, deviceId, deviceName, deviceType, deviceCurrVal, latestUpdate} = this.props.deviceData;
+        const {nodeId, deviceName, deviceType, deviceCurrVal} = this.props.deviceData;
         return(
             <div className="Device">
                 <div className="DeviceTitleContainer flex-container wrap" style={{'display': 'flex'}}>

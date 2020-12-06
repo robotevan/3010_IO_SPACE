@@ -1,0 +1,97 @@
+*{
+    background-color: #131417;
+    color: white;
+    font-family: Montserrat;
+}
+
+body{
+    padding:0;
+    margin:0;
+}
+
+.MainTitleContainer{
+    height: 100vh;
+}
+
+.LargeTitle{
+    padding-top: 10vh;
+    font-size: 20vmin;
+}
+
+.AboutIOSpace{
+    text-align: center;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    padding-bottom: 20vh;
+}
+
+
+.AboutHeader{
+    font-size: 9vmin;
+}
+
+p{
+    font-size: 4vmin;
+}
+
+.IOSpaceConnect{
+    justify-content: center;
+    padding-right: 5vw;
+    padding-left: 5vw;
+}
+
+.InfoContainer{
+    position: relative;
+    text-align: center;
+    width: 40vw;
+    padding: 5vmin;
+}
+.InfoHeader{
+    border-bottom: white solid 3px;
+    font-size: 5vmin;
+}
+
+.Button{
+    width: 100%;
+    height: 5em;
+    border-width: 4px;
+    border-color: white;
+    font-size: 2vmin;
+}
+
+.Container{
+    height: 100vh;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 4vmin;
+}
+
+.ConnectInput{
+    margin-left: 8px;
+    font-size: 3vmin;
+    border-color: white;
+    border-radius: 9px;
+}
+
+.ConnectButton{
+    margin-left: 8px;
+    font-size: 3vmin;
+    border-radius: 8px;
+    border-color: white;
+}
+
+
+.SensorAnalytics{
+    position: fixed;
+    height: 100vh;
+}
+
+.DeviceNameHeader{
+    color: white;
+    font-size: 8vmin;
+    margin: 0%;
+    border-bottom: white solid 2px;
+    width: 50vw;
+    padding: 10px;
+}
