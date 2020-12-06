@@ -16,16 +16,20 @@ class NewUser extends Component{
     }
 
     createUserApiKey = () =>{
-        fetch("/newUser/user?email="+ this.state.email)
+        fetch("/newUser/user?email="+ this.state.email).then(res => res.json()).then(data => {
+            if (data["success"] == false){
+                window.alert("The email you have entered is already registered!");
+            }
+        })
     }
 
     render(){
         return (
             <div className="LoginPage">
-                <form onSubmit={this.verifyLogin}>
+                <form onSubmit={this.createUserApiKey}>
                     <label>
                     Enter your email:
-                    <input type="text" value={this.state.api_key} onChange={this.createUserApiKey} />
+                    <input type="email" value={this.state.api_key} onChange={this.handleChange} />
                     </label>
                     <input type="submit" value="Create API Key" />
                 </form>
