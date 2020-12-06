@@ -25,14 +25,16 @@ class NewUser extends Component{
 
     render(){
         return (
-            <div className="LoginPage">
+            <div className="Container">
+            <div className="ConnectPage">
                 <form onSubmit={this.createUserApiKey}>
                     <label>
                     Enter your email:
-                    <input type="email" value={this.state.api_key} onChange={this.handleChange} />
+                    <input className="ConnectInput" type="email" value={this.state.api_key} onChange={this.handleChange} />
                     </label>
-                    <input type="submit" value="Create API Key" />
+                    <input className="ConnectButton" type="submit" value="Create API Key" />
                 </form>
+            </div>
             </div>
         )
     }

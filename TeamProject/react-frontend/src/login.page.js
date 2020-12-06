@@ -33,14 +33,16 @@ class LoginPage extends Component{
 
     render(){
         return (
-            <div className="LoginPage">
+            <div className="Container">
+            <div className="ConnectPage">
                 <form onSubmit={this.handleSubmit}>
                     <label>
                     Enter Your API Key:
-                    <input type="text" value={this.state.api_key} onChange={this.handleChange} />
+                    <input className="ConnectInput" type="text" value={this.state.api_key} onChange={this.handleChange} />
                     </label>
-                    <input type="submit" value="Connect" />
+                    <input className="ConnectButton" type="submit" value="Connect" />
                 </form>
+            </div>
             </div>
         )
     }

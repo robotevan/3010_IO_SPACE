@@ -1,20 +1,16 @@
 import React, {Component} from 'react'; 
 import Device from './Device';
-import './componentSyles.css'
+import '../styles.css'
 
 
 class DeviceBar extends Component{
-    state = {devices: [],
-            connected: false}
+    state = {devices: []
+        }
+    intervalId = 0;
 
 
     get_devices_style = () =>{
-        if (this.state.connected){
-            return("My Devices: ")
-        }else{
-            return("Please enter a valid device name in the url api/<apikey>")
-        }
-
+        return("My Devices: ");
     }
 
     update = (data)=>{
@@ -29,11 +25,15 @@ class DeviceBar extends Component{
 
     // When component is loaded start polling database every 10 seconds, checking if sensors updated
     async componentDidMount(){
-        setInterval(async () =>{
+        this.state.intervalId = setInterval(async () =>{
             fetch(window.location.pathname+window.location.search).then(res => res.json()).then(data => {
                 this.update(data);
               })
         }, 4000);
+    }
+
+    async componentWillUnmount(){
+        clearInterval(this.state.intervalId);
     }
 
     render(){
@@ -43,7 +43,7 @@ class DeviceBar extends Component{
                 <div className="DeviceList">
                     {
                         this.state.devices.map((device)=> (
-                            <Device key={device.deviceId} deviceData={device}/>
+                            <Device key={device.deviceId} deviceData={device} setDeviceFunc={this.props.setDeviceFunc}/>
                         ))                        
                     }
                 </div>

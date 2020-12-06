@@ -1,8 +1,8 @@
 .DeviceBar{
+    background-color: white;
     float: right;
     width: 20%;
-    height: 100%;
-    background-color: white;
+    height: 100vh;
     opacity: 90%;
     float: right;
     overflow-y: scroll;
@@ -14,6 +14,7 @@
     font-size: 2vw;
     font-weight: 500;
     color: #131417;
+    background-color:white;
     border-bottom: white solid;
     font-weight: 700;
 }
@@ -50,6 +51,9 @@
     transition: transform 0.1s;
 }
 
+.DeviceList{
+    background-color: white;
+}
 .Device:hover{
     transform: translate(-10px, -0);
 }

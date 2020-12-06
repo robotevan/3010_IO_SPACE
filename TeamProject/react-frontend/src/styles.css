@@ -4,6 +4,11 @@
     font-family: Montserrat;
 }
 
+body{
+    padding:0;
+    margin:0;
+}
+
 .MainTitleContainer{
     height: 100vh;
 }
@@ -52,4 +57,26 @@ p{
     border-width: 4px;
     border-color: white;
     font-size: 2vmin;
+}
+
+.Container{
+    height: 100vh;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 4vmin;
+}
+
+.ConnectInput{
+    margin-left: 8px;
+    font-size: 3vmin;
+    border-color: white;
+    border-radius: 9px;
+}
+
+.ConnectButton{
+    margin-left: 8px;
+    font-size: 3vmin;
+    border-radius: 8px;
+    border-color: white;
 }
