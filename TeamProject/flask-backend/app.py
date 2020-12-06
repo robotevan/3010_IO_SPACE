@@ -50,6 +50,7 @@ def get_user_nodes(api_key):
 
 @app.route('/login/user', methods=["GET"])
 def verify_login():
+    print("HERE")
     try:
         api_key = request.args.get('api_key')  # Fetch the api provided by the user
         if db['user_data'].find_one({"api_key": api_key}) is not None:
@@ -73,27 +74,26 @@ def create_user_apikey():
             api_key += str(random.choice(rand_char)())
         data_base_api_key = db["user_data"].find_one({"api_key": api_key})
         if data_base_api_key is None:
-            new_data={"email": email,
-                      "api_key": api_key,
-                      "nodes": [],
-                      "devices": []}
+            new_data = {"email": email,
+                        "api_key": api_key,
+                        "nodes": [],
+                        "devices": []}
             db["user_data"].insert_one(new_data)
             # Send an email to the user, containing the API key
             send_email(EMAIL_NOTIFICATION_SUBJECT, EMAIL_NOTIFICATION_TEXT + api_key, email)
             break
 
 
-@app.route('/api/<api_key>', methods=['GET'])
-def fetch_devices(api_key):
-    print("imhere")
+@app.route('/MyIOSpace', methods=['GET'])
+def fetch_devices():
+    api_key = request.args.get("api_key")
+    print(api_key)
     try:
         devices = get_user_nodes(api_key)
         print(devices)
         return devices
     except Exception:
         return {'devices': 'NoneFound'}
-
-
 
 
 if __name__ == '__main__':
