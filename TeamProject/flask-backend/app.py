@@ -32,8 +32,7 @@ def get_user_nodes(api_key):
                 device_collection_type = "_feedback"
             device_collection = db[api_key+device_collection_type]
             device_info = device_collection.find_one({'device_name': device_name, 'node_name': node_name},
-                                                     sort=[('_id', pymongo.ASCENDING)])
-            # TODO: Revert to DESCENTING ^^^^
+                                                     sort=[('_id', pymongo.DESCENDING)])
             # Set the device fields
             try:
                 device_curr_val = device_info['data']
@@ -81,6 +80,11 @@ def create_user_apikey():
             db["user_data"].insert_one(new_data)
             # Send an email to the user, containing the API key
             send_email(EMAIL_NOTIFICATION_SUBJECT, EMAIL_NOTIFICATION_TEXT + api_key, email)
+            # we need to also create collections for the users devices
+            db.create_collection(api_key + "_feedback")
+            db.create_collection(api_key)
+            db[api_key+"_feedback"].insert_one({"REQUIRED_PYMONGO_SHIT":"ABC"})
+            db[api_key].insert_one({"REQUIRED_PYMONGO_SHIT": "ABC"})
             break
 
 
