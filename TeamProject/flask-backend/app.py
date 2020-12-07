@@ -122,6 +122,7 @@ def fetch_devices():
 
 @app.route('/MyIOSpace/deviceOn')
 def set_device_on():
+    print("turning device on")
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
@@ -132,10 +133,11 @@ def set_device_on():
 
 @app.route('/MyIOSpace/deviceOff')
 def set_device_off():
+    print("Turning device off")
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
-    payload = api_key + ":" + node_name + ":" + device_name + ":switch:on"
+    payload = api_key + ":" + node_name + ":" + device_name + ":switch:off"
     mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
     return {"deviceState": 0}
 
@@ -162,4 +164,4 @@ def fetch_sensor_data():
 
 
 if __name__ == '__main__':
-   app.run(debug=True)
+    app.run(debug=True)
