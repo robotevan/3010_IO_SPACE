@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import  request
+from flask import request
 import pymongo
 from TeamProject.email_services import send_email
 import random
@@ -98,7 +98,3 @@ def fetch_devices():
         return devices
     except Exception:
         return {'devices': 'NoneFound'}
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
