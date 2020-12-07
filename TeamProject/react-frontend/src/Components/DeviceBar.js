@@ -10,8 +10,7 @@ class DeviceBar extends Component{
             this.update(data);
         })
     }
-    state = {devices: []
-        }
+    state = {devices: []}
     intervalId = 0;
 
 
@@ -31,7 +30,7 @@ class DeviceBar extends Component{
 
     // When component is loaded start polling database every 10 seconds, checking if sensors updated
     async componentDidMount(){
-        this.state.intervalId = setInterval(async () =>{
+        this.intervalId = setInterval(async () =>{
             fetch(window.location.pathname+window.location.search).then(res => res.json()).then(data => {
                 this.update(data);
               })
@@ -39,7 +38,7 @@ class DeviceBar extends Component{
     }
 
     async componentWillUnmount(){
-        clearInterval(this.state.intervalId);
+        clearInterval(this.intervalId);
     }
 
     render(){
@@ -50,7 +49,8 @@ class DeviceBar extends Component{
                     {
                         this.state.devices.map((device)=> (
                             <Device key={device.deviceId} deviceData={device} setDeviceFunc={this.props.setDeviceFunc}/>
-                        ))                        
+
+                            ))                        
                     }
                 </div>
             </div>

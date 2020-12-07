@@ -5,7 +5,7 @@ class FeedbackAnalytics extends Component{
     constructor(props){
         super(props);
         this.state = {
-            deviceVal: 0
+            deviceVal: 0,
         }
         
         // get the initital device value, cant change from client side so no point in polling
@@ -16,15 +16,22 @@ class FeedbackAnalytics extends Component{
         this.deviceOn = this.deviceOn.bind(this);
         this.deviceOff = this.deviceOff.bind(this);
     }
+    
 
     deviceOn = () =>{
-        fetch(window.location.pathname + "/deviceOn" + window.location.search).then(res => res.json()).then(data => {
+        fetch(window.location.pathname + "/deviceOn" + 
+                            window.location.search+
+                            "&node_name="+this.props.device[0]+ // set device node name and device name
+                            "&device_type="+this.props.device[1]).then(res => res.json()).then(data => {
             this.setState({deviceVal: 1});
         })
     }
 
     deviceOff = () =>{
-        fetch(window.location.pathname + "/deviceOff" + window.location.search).then(res => res.json()).then(data => {
+        fetch(window.location.pathname + "/deviceOff" + 
+                            window.location.search+
+                            "&node_name="+this.props.device[0]+ // set device node name and device name
+                            "&device_type="+this.props.device[1]).then(res => res.json()).then(data => {
             this.setState({deviceVal: 0});
         })
     }
