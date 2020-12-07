@@ -1,36 +1,41 @@
-import React from 'react'
+import {Component} from 'react'
 import Fade from 'react-reveal/Fade'
 import Typing from 'react-typing-animation';
 
-export const MainPage = props => {
-    var curr_word = 0;
-    const randWords = ['Code', 'Create', 'Monke🐒', 'IoT', 'Think!', 'Coffee☕', 'JS', 'Evan🐵', 'Maged😫', 'Ousama🤑']
-
-    function updateCurrWord(){
-        if(curr_word === randWords.length){
-            curr_word = 0;
-        }else{
-            curr_word+=1;
+class MainPage extends Component{ 
+    constructor(props){
+        super(props);
+        this.state = {
+            currWord:0,
         }
-        console.log(randWords[curr_word])
+        this.randWords = ['Code', 'Create', 'Monke🐒', 'IoT', 'Think!', 'Coffee☕', 'JS', 'Evan🐵', 'Maged😫', 'Ousama🤑']
     }
 
-    function getRandWord(){
+    updateCurrWord = () =>{
+        console.log(this.state.currWord)
+        if(this.state.currWord === this.randWords.length){
+            this.setState({currWord: 0});
+        }else{
+            this.setState({currWord: this.state.curr_word+=1});
+        }
+    }
+
+    getRandWord = () => {
         return(
-            <Typing loop={true} onFinishedTyping={updateCurrWord}>
-                <span>{randWords[curr_word]}</span>
+            <Typing loop={true} onFinishedTyping={this.updateCurrWord} hideCursor={true} className="LargeTitle">
+                {this.randWords[this.state.currWord]}
                 <Typing.Delay ms={1500} />
                 <Typing.Backspace count={20} />
             </Typing>
     );
     }
 
-    
+    render(){
     return(
         <div className="MainPage">
             <h1 className="MainTitleContainer" style={{display:'flex'}}>
                 <h1 className="LargeTitle">IO Space</h1>
-                {getRandWord()}
+                
             </h1>
 
             <div className="AboutIOSpace">
@@ -54,7 +59,7 @@ export const MainPage = props => {
                         Loging in will bring you to MyIOSpace, where all your sensors and analytics are available at the
                         click of a button!
                     </p>
-                    <button className="Button" onClick={() => {props.history.push("/login")}}>Login</button>
+                    <button className="Button" onClick={() => {this.props.history.push("/login")}}>Login</button>
                 </div>
                 
                 <div className="InfoContainer">
@@ -64,12 +69,13 @@ export const MainPage = props => {
                         to create your new API key. Keep a copy of this key at all times as it will allow you to setup your 
                         nodes and visualize data here!
                     </p>
-                    <button className="Button" onClick={() => {props.history.push("/newUser")}}>Create!</button>
+                    <button className="Button" onClick={() => {this.props.history.push("/newUser")}}>Create!</button>
                 </div>
                 </Fade> 
             </div>
         </div>
     )
+    }
 }
 
 

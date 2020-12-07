@@ -29,7 +29,7 @@ class SensorAnalytics extends Component{
                 this.setState({currVal: data['deviceData'][0]['y']})
                 console.log(this.state.deviceData);
               })
-        }, 10000);
+        }, 4000);
     }
 
     async componentWillUnmount(){

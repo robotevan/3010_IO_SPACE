@@ -1,7 +1,11 @@
 import { Component } from 'react';
 
 
-class FeedbackStateControl extends Component{
+class FeedbackState extends Component{
+    state = {
+        selectedDevice: 'none'
+    }
+
     render(){
         return(
             <div className="CardContainer" style={{display:'flex'}}>
@@ -11,4 +15,4 @@ class FeedbackStateControl extends Component{
     }
 }
 
-export default FeedbackStateControl;
+export default FeedbackState;

@@ -1,7 +1,6 @@
 from flask import Flask
 from flask import request
 import pymongo
-from email_services import send_email
 import random
 import string
 import paho.mqtt.client as mqtt
@@ -127,6 +126,7 @@ def set_device_on():
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
     payload = api_key + ":" + node_name + ":" + device_name + ":switch:on"
+    print(payload)
     mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
     return {"deviceState": 1}
 
@@ -138,6 +138,7 @@ def set_device_off():
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
     payload = api_key + ":" + node_name + ":" + device_name + ":switch:off"
+    print(payload)
     mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
     return {"deviceState": 0}
 
