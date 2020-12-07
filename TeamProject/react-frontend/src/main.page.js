@@ -46,14 +46,8 @@ class MainPage extends Component{
             </div>
             <div className="Getting Started">
                 <Fade>
-                <h1 className="AboutHeader">How to get started?</h1>
-                <p>TO get started its 4 easy steps, 1. sign up,2.get youe api key,3.create a node, 4. use a sensor and your all done </p>
-                </Fade>
-            </div>
-            <div className="Sign Up">
-                <Fade>
-                <h1 className="AboutHeader">How to sign up?</h1>
-                <p>siging up is really easily, enter your email below to reicve your api key and you are reay to start  </p>
+                <h1 className="AboutHeader">What is IO Space?</h1>
+                <p>IO Space is a highly interactive, easy to use IoT platform. ADD MORE SHIT HERE, TOO TIRED</p>
                 </Fade>
             </div>
             <div className="IOSpaceConnect" style={{display:'flex'}}>
@@ -80,23 +74,6 @@ class MainPage extends Component{
                 </Fade> 
             </div>
         </div>
-    <html>
-   <head>
-      <style>
-         body {
-            background-image: url("https://lh3.googleusercontent.com/YGJ77qN9KiwctZgfqV8Bf3hNo0rZvcFaPKDTkvtS6kVbtwyCS80Pm6dpXzJCCLZE1Q");
-         }
-      </style>
-   </head>
-
-   <body>
-      <h1>Connect with Tutors</h1>
-   </body>
-</html>
-
-
-
-
     )
     }
 }
