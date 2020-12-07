@@ -1,13 +1,26 @@
 from flask import Flask
-from flask import  request
+from flask import request
 import pymongo
-from TeamProject.email_services import send_email
+from email_services import send_email
 import random
 import string
+import paho.mqtt.client as mqtt
+
 APIKEY_LENGTH = 12
+MQTT_CLIENT_NAME = "website_backend"
+MQTT_ADDRESS = "192.168.1.15"
+MQTT_TIMEOUT = 5
+FEEDBACK_REQUEST_TOPIC = "Feedback/Website"
+
 app = Flask("__name__")
+
+mqtt_client = mqtt.Client(MQTT_CLIENT_NAME)
+mqtt_client.CONNECTION_TIMEOUT_DEFAULT = MQTT_TIMEOUT
+mqtt_client.connect(MQTT_ADDRESS)
+
 client = pymongo.MongoClient("mongodb://192.168.1.48:27017")
 db = client['iospace']
+
 EMAIL_NOTIFICATION_SUBJECT = "IOSpace API Key"
 EMAIL_NOTIFICATION_TEXT = "Below is your new IO Space API key, keep a copy of this on your local machine as you will " \
                           "need it to add new nodes! This key is what lets you connect to your IO Space!\n \n"
@@ -98,6 +111,40 @@ def fetch_devices():
         return devices
     except Exception:
         return {'devices': 'NoneFound'}
+
+@app.route('/MyIOSpace/deviceOn')
+def set_device_on():
+    api_key = request.args.get("api_key")
+    node_name = request.args.get("node_name")
+    device_name = request.args.get("device_name")
+    payload = api_key + ":" + node_name + ":" + device_name + ":switch:on"
+    mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
+
+@app.route('/MyIOSpace/deviceOff')
+def set_device_off():
+    api_key = request.args.get("api_key")
+    node_name = request.args.get("node_name")
+    device_name = request.args.get("device_name")
+    payload = api_key + ":" + node_name + ":" + device_name + ":switch:on"
+    mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
+
+@app.route('/MyIOSpace/sensorData')
+def fetch_sensor_data():
+    api_key = request.args.get("api_key")
+    node_name = request.args.get("node_name")
+    device_name = request.args.get("device_name")
+    query_size = db[api_key].count_documents({"node_name" : node_name, "device_name" : device_name})
+    if query_size == 0:
+        return []
+    else:
+        documents = db["i3fy7j98zbqc"].find({"node_name" : node_name, "device_name" : device_name}).sort("_id", -1).limit(50)
+        data_list = []
+        for doc in documents:
+            date = doc["date"]
+            date_string = str(date.hour) + ":" + str(date.minute) + ":" + str(date.second)
+            data_list.append([doc["data"], date_string])
+        return data_list
+
 
 
 if __name__ == '__main__':
