@@ -8,6 +8,7 @@ CONNECTION_STRING = "mongodb://192.168.1.48:27017"
 BROKER_ADDRESS = "192.168.1.15"
 SUB_TOPIC = "Authenticate/#"
 
+
 #Function call when a message is received
 def on_message(client, userdata, message):
     topic_list = parse_topic(message.topic)
@@ -42,19 +43,23 @@ def on_message(client, userdata, message):
             else:
                 api.publish(client, construct_topic(topic_list), "connection_denied", 1)
 
+
 #Splits a topic into a list
 def parse_topic(topic: str) -> list:
     return topic.split("/")
 
+
 #Reassmbels topic back into a string
 def construct_topic(topic_list: list) -> str:
     return "/".join(topic_list)
+
 
 def check_API_key(database, collection_name, api_key):
     user_doc = database[collection_name].find_one( {"api_key" : api_key} )
     if user_doc is None:
         return False
     return True if (user_doc["api_key"]) == api_key else False
+
 
 #Checks if given node exists with in the system
 def node_check(database, collection_name, api_key, node_name):
@@ -78,6 +83,7 @@ def node_check(database, collection_name, api_key, node_name):
     else:
         print("Incorrect data type for device entry inside of document! \n")
         return False
+
 
 #Checks if given device exists with in the system
 def device_check(database, collection_name,api_key, node_name, device_type, device_name, feedback_type=None):
@@ -122,13 +128,11 @@ def device_check(database, collection_name,api_key, node_name, device_type, devi
         print("Incorrect data type for device entry inside of document! \n")
         return False
 
-#Script Start#
-#Connecting to database
-database = api.connect_to_database(CONNECTION_STRING, "iospace")
 
-#Connecting to broker and subscribe to SUB_TOPIC
-client = api.connect_to_broker(BROKER_ADDRESS, "authenticate", on_message)
+#Script Start#
+database = api.connect_to_database(CONNECTION_STRING, "iospace") #Connecting to database
+
+client = api.connect_to_broker(BROKER_ADDRESS, "authenticate", on_message) #Connecting to broker and subscribe to SUB_TOPIC
 api.subscribe(client, SUB_TOPIC, 1)
 
-#Starting MQTT thread to listen for incoming messages
-api.forever_mqtt_thread(client)
+api.forever_mqtt_thread(client) #Starting MQTT thread to listen for incoming messages
