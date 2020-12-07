@@ -141,6 +141,14 @@ def set_device_off():
     mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
     return {"deviceState": 0}
 
+@app.route('/MyIOSpace/currState')
+def get_current_state():
+    api_key = str(request.args.get("api_key"))
+    node_name = str(request.args.get("node_name"))
+    device_name = str(request.args.get("device_name"))
+    doc = db[api_key + "_feedback"].find_one({"node_name": node_name, "device_name": device_name, "device_state" : "switch"})
+    return {"deviceVal": doc["data"]}
+
 
 @app.route('/MyIOSpace/sensorData')
 def fetch_sensor_data():
