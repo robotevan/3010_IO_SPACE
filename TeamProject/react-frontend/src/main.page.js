@@ -41,13 +41,16 @@ class MainPage extends Component{
             <div className="AboutIOSpace">
                 <Fade>
                 <h1 className="AboutHeader">What is IO Space?</h1>
-                <p>IO Space is a highly interactive, easy to use IoT platform.IO Space can be easily used from any remote devices:cellphones, Lpatops ,Pcs and exatra</p>
+                <p>IO Space is a highly interactive, easy to use IoT platform. IO Space can be easily used from any remote device, be it a cellphone, Lpatop , PC</p>
                 </Fade>
             </div>
-            <div className="Getting Started">
+            <div className="AboutIOSpace">
                 <Fade>
-                <h1 className="AboutHeader">What is IO Space?</h1>
-                <p>IO Space is a highly interactive, easy to use IoT platform. ADD MORE SHIT HERE, TOO TIRED</p>
+                <h1 className="AboutHeader">Getting Started</h1>
+                <p>There are 3 main steps to IO Space:</p>
+                <p><br/> 1. Create a new API key<br/><br/>2. Log in with your API key<br/><br/>3. Create a node<br/><br/> 4. Visualize your
+                    your data on MyIOSpace </p>
+                <p>Thats it, your done!</p>
                 </Fade>
             </div>
             <div className="IOSpaceConnect" style={{display:'flex'}}>

@@ -28,6 +28,7 @@ body{
 
 .AboutHeader{
     font-size: 9vmin;
+    border-bottom: 2px white solid;
 }
 
 p{
