@@ -106,7 +106,7 @@ class IOSpace:
     def _authenticate_node_request(self):
         try:
             self.feedback_device_type
-        except NameError:
+        except AttributeError:
             request_topic = "Authenticate/" + self.apikey + "/" + self.node_name + "/" + self.device_type + "/" + self.device_name
             receive_topic = "Authenticate_reply/" + self.apikey + "/" + self.node_name + "/" + self.device_type + "/" + self.device_name
         else:

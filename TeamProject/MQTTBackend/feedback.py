@@ -21,7 +21,7 @@ def on_message(client, userdata, message):
 
     if (topic_list[1].lower() == "website"):
         if update_db_feedback_device(database, msg_list[0], msg_list[1], msg_list[2], msg_list[3], msg_list[4]):
-            api.publish(client, api.construct_topic([DEVICE_RECEIVE_TOPIC_HEADER, msg_list[0], msg_list[1], msg_list[2], msg_list[3]]), msg_list[4], 0)
+            api.publish(client, api.construct_topic([DEVICE_RECEIVE_TOPIC_HEADER, msg_list[0], msg_list[1], msg_list[2], msg_list[3]]), msg_list[4], 1)
     elif len(topic_list) == 5:
         if check_user_data(database, "user_data",topic_list[1]) == False: #Check the API Key
             print("Invalid API Key")
@@ -58,6 +58,7 @@ def update_db_feedback_device(database, api_key, node_name, device_name, data_ty
         elif data_type.lower() == "value":
             try:
                 value = int(data)
+                feedback_collection.update_one({"_id": feedback_document["_id"]}, {"$set": {"data": value}})
                 return True
             except:
                 print("Could not convert expected value type data to int!")

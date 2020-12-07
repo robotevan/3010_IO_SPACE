@@ -108,7 +108,7 @@ def device_check(database, collection_name,api_key, node_name, device_type, devi
                     if feedback_type == "switch":
                         database[api_key + "_feedback"].insert_one({"node_name": node_name, "device_name": device_name, "data_type": feedback_type, "data": "off"})
                     elif feedback_type == "value":
-                        database[api_key + "_feedback"].insert_one({"node_name": node_name, "device_name": device_name, "data_type": feedback_type, "data" : "0"})
+                        database[api_key + "_feedback"].insert_one({"node_name": node_name, "device_name": device_name, "data_type": feedback_type, "data" : 0})
                 elif feedback_type is None:
                     print("Unable to add feedback device to user_feedback collection!")
                     return False
