@@ -4,7 +4,7 @@ import iospaceAPI as api
 ADDRESS = "198.91.181.118"
 NODE_NAME = "o_aa"
 DEVICE_NAME = "random_device"
-API_KEY = " "
+API_KEY = "658i685q44g1"
 
 
 def random_number():
