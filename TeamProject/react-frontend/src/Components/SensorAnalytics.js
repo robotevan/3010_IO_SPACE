@@ -6,7 +6,8 @@ class SensorAnalytics extends Component{
     constructor(props){
         super(props);
         this.state = {
-            deviceData: []
+            deviceData: [],
+            currVal: 0
         }
         this.intervalId = 0;
         fetch(window.location.pathname + 
@@ -14,6 +15,7 @@ class SensorAnalytics extends Component{
             "&node_name="+this.props.device[0]+
             "&device_name="+this.props.device[1]).then(res => res.json()).then(data => {
             this.setState({deviceData: data['deviceData']});
+            this.setState({currVal: data['deviceData'][0]['y']}) // get latest data
 })
     }
     // When component is loaded start polling database every 10 seconds, checking if sensors updated
@@ -24,6 +26,7 @@ class SensorAnalytics extends Component{
                             "&node_name="+this.props.device[0]+
                             "&device_name="+this.props.device[1]).then(res => res.json()).then(data => {
                 this.setState({deviceData: data['deviceData']});
+                this.setState({currVal: data['deviceData'][0]['y']})
                 console.log(this.state.deviceData);
               })
         }, 10000);
@@ -41,14 +44,15 @@ class SensorAnalytics extends Component{
             <div className="AnalyticsContainer">
                 <h1 className="DeviceNameHeader">{deviceName}</h1>
                 <div className="DataContainer" style={{display:'flex'}}>
-                <div className="CardContainer" style={{display:'flex'}}>
-                        <h1 className="CardText">Current State: </h1>
+                <div className="CardContainer" style={{display:'inline'}}>
+                        <h1 className="CardText">Current Value: </h1>
+                        <h1 className="DeviceValCard">{this.state.currVal}</h1>
                     </div>
                 <XYPlot height={400} width={600}>
                     <LineSeries data={this.state.deviceData}/>
                     <VerticalGridLines />
                     <HorizontalGridLines />
-                    <XAxis />
+                    <XAxis/>
                     <YAxis />
                 </XYPlot>
                 </div>
