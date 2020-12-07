@@ -1,14 +1,36 @@
 import React from 'react'
 import Fade from 'react-reveal/Fade'
-
+import Typing from 'react-typing-animation';
 
 export const MainPage = props => {
+    var curr_word = 0;
+    const randWords = ['Code', 'Create', 'Monke🐒', 'IoT', 'Think!', 'Coffee☕', 'JS', 'Evan🐵', 'Maged😫', 'Ousama🤑']
+
+    function updateCurrWord(){
+        if(curr_word === randWords.length){
+            curr_word = 0;
+        }else{
+            curr_word+=1;
+        }
+        console.log(randWords[curr_word])
+    }
+
+    function getRandWord(){
+        return(
+            <Typing loop={true} onFinishedTyping={updateCurrWord}>
+                <span>{randWords[curr_word]}</span>
+                <Typing.Delay ms={1500} />
+                <Typing.Backspace count={20} />
+            </Typing>
+    );
+    }
+
+    
     return(
         <div className="MainPage">
             <h1 className="MainTitleContainer" style={{display:'flex'}}>
                 <h1 className="LargeTitle">IO Space</h1>
-                <h1 className="TypingText LargeTitle"></h1>
-                <h1 className="Cursor LargeTitle">_</h1>
+                {getRandWord()}
             </h1>
 
             <div className="AboutIOSpace">

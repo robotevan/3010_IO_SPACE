@@ -83,6 +83,7 @@ p{
 
 
 .AnalyticsContainer{
+    padding-top: 20px;
     height: 100vh;
     width: 80vw;
 }
@@ -122,4 +123,20 @@ p{
 #OffButton{
     background-color: rgb(145, 30, 30);
     outline: none;
+}
+
+#backButton{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.DeviceValCard{
+    user-select: none;
+    padding-left: 15px;
+    color: black;
+    background-color: white;
+    text-align: center;
+    font-size: 10vmin;
 }
