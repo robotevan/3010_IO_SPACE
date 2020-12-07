@@ -144,7 +144,7 @@ def get_current_state():
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
-    doc = db[api_key].find_one({"node_name": node_name, "device_name": device_name, "device_state" : "switch"})
+    doc = db[api_key + "_feedback"].find_one({"node_name": node_name, "device_name": device_name, "device_state" : "switch"})
     return {"deviceVal": doc["data"]}
 
 
