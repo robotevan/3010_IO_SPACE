@@ -18,13 +18,13 @@ class FeedbackAnalytics extends Component{
     }
 
     deviceOn = () =>{
-        fetch(window.location.pathname + "/deviceOn" + window.location.search + "&device_name=" + deviceName + "&node_name="+nodeId).then(res => res.json()).then(data => {
+        fetch(window.location.pathname + "/deviceOn" + window.location.search).then(res => res.json()).then(data => {
             this.setState({deviceVal: 1});
         })
     }
 
     deviceOff = () =>{
-        fetch(window.location.pathname + "/deviceOff" + window.location.search + "&device_name=" + deviceName + "&node_name="+nodeId).then(res => res.json()).then(data => {
+        fetch(window.location.pathname + "/deviceOff" + window.location.search).then(res => res.json()).then(data => {
             this.setState({deviceVal: 0});
         })
     }
