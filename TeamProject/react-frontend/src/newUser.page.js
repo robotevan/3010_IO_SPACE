@@ -17,8 +17,10 @@ class NewUser extends Component{
 
     createUserApiKey = () =>{
         fetch("/newUser/user?email="+ this.state.email).then(res => res.json()).then(data => {
-            if (data["success"] == false){
+            if (data["success"] === false){
                 window.alert("The email you have entered is already registered!");
+            }else{
+                
             }
         })
     }
@@ -26,6 +28,9 @@ class NewUser extends Component{
     render(){
         return (
             <div className="Container">
+                <button className="CardContainer" id="backButton" onClick={() => {this.props.history.push("/")}} style={{display:'flex'}}>
+                    <h1 className="CardText"> 🔙Back </h1>
+                </button>
             <div className="ConnectPage">
                 <form onSubmit={this.createUserApiKey}>
                     <label>
