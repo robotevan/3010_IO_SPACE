@@ -3,7 +3,7 @@ import send_insert as api_prototype
 import time
 
 #api_prototype setup broker only
-SEND_TOPIC = "testecho"
+SEND_TOPIC = "Data/test/node1/temperature"
 BROKER_ADDRESS = "192.168.1.15"
 client = api_prototype.connect_to_broker(BROKER_ADDRESS, "temp_test", api_prototype.on_message)
 
