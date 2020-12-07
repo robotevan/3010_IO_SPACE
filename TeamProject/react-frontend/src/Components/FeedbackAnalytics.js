@@ -10,7 +10,7 @@ class FeedbackAnalytics extends Component{
         
         // get the initital device value, cant change from client side so no point in polling
         fetch(window.location.pathname+window.location.search).then(res => res.json()).then(data => {
-            this.setState({deviceVal: data})
+            this.setState({deviceVal: 1})
         })
         // bind functions
         this.deviceOn = this.deviceOn.bind(this);
@@ -39,14 +39,14 @@ class FeedbackAnalytics extends Component{
                 <div className="StateContainer" style={{display:'flex'}}>
                     <div className="CardContainer" style={{display:'flex'}}>
                         <h1 className="CardText">Current State: </h1>
-                        <h1 className="CardText">testval</h1>
+                        <h1 className="CardText">{this.state.deviceVal}</h1>
                     </div>
-                    <div className="CardContainer" id="OnButton" onClick={this.deviceOn} style={{display:'flex'}}>
+                    <button className="CardContainer" id="OnButton" onClick={this.deviceOn} style={{display:'flex'}}>
                         <h1 className="CardText"id="OnButton"> On </h1>
-                    </div>
-                    <div className="CardContainer" id="OffButton" onClick={this.deviceOff} style={{display:'flex'}}>
+                    </button>
+                    <button className="CardContainer" id="OffButton" onClick={this.deviceOff} style={{display:'flex'}}>
                         <h1 className="CardText" id="OffButton"> Off </h1>
-                    </div>
+                    </button>
                 </div>
             </div>
         )

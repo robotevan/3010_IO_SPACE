@@ -17,6 +17,12 @@ export const MainPage = props => {
                 <p>IO Space is a highly interactive, easy to use IoT platform. ADD MORE SHIT HERE, TOO TIRED</p>
                 </Fade>
             </div>
+            <div className="AboutIOSpace">
+                <Fade>
+                <h1 className="AboutHeader">What is IO Space?</h1>
+                <p>IO Space is a highly interactive, easy to use IoT platform. ADD MORE SHIT HERE, TOO TIRED</p>
+                </Fade>
+            </div>
             <div className="IOSpaceConnect" style={{display:'flex'}}>
                 <Fade>
                 <div className="InfoContainer">
