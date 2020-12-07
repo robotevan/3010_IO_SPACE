@@ -16,7 +16,7 @@ app = Flask("__name__")
 mqtt_client = mqtt.Client(MQTT_CLIENT_NAME)
 mqtt_client.CONNECTION_TIMEOUT_DEFAULT = MQTT_TIMEOUT
 mqtt_client.connect(MQTT_ADDRESS)
-
+from email_services import send_email
 client = pymongo.MongoClient("mongodb://192.168.1.48:27017")
 db = client['iospace']
 
@@ -53,12 +53,12 @@ def get_user_nodes(api_key):
             # Set the device fields
             if device_type == "feedback":
                 device_data_type = device_info['data_type']
-                device_curr_val = ['data']
+                device_curr_val = device_info['data']
                 device_curr_time = None  # Feedback has no timestamp
             elif device_type == "sensor":
                 device_data_type = None  # sensor has no data_type
-                device_curr_val = ['data']
-                device_curr_time = ['date']
+                device_curr_val = device_info['data']
+                device_curr_time = device_info['date']
             # Append device json description to list
             device_lst.append({'nodeId': node_name, 'deviceId': len(device_lst), 'deviceType': device_type,
                                'deviceName': device_name, 'deviceCurrVal': device_curr_val,
@@ -126,7 +126,7 @@ def set_device_on():
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
     payload = api_key + ":" + node_name + ":" + device_name + ":switch:on"
-    print(payload)
+    mqtt_client.reconnect()
     mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
     return {"deviceState": 1}
 
@@ -139,6 +139,7 @@ def set_device_off():
     device_name = str(request.args.get("device_name"))
     payload = api_key + ":" + node_name + ":" + device_name + ":switch:off"
     print(payload)
+    mqtt_client.reconnect()
     mqtt_client.publish(FEEDBACK_REQUEST_TOPIC, payload, 1)
     return {"deviceState": 0}
 
