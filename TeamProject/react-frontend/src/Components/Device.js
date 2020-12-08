@@ -7,6 +7,7 @@ class Device extends Component{
         this.setDeviceFunc = this.setDeviceFunc.bind(this);
     }
     
+
     setDeviceFunc = (node, device, type) =>{
         this.props.setDeviceFunc(node, device, type);
     }

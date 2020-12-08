@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import MainPage from './main.page';
 import LoginPage from "./login.page";
 import NewUser from './newUser.page';
-import MyIOSpace from './myIOSpace.page';
+import MyIOSpace from './MyIOSpace.page';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import "./styles.css"

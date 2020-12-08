@@ -34,6 +34,9 @@ class LoginPage extends Component{
     render(){
         return (
             <div className="Container">
+                <button className="CardContainer" id="backButton" onClick={() => {this.props.history.push("/")}} style={{display:'flex'}}>
+                        <h1 className="CardText"> 🔙Back </h1>
+                    </button>
             <div className="ConnectPage">
                 <form onSubmit={this.handleSubmit}>
                     <label>
