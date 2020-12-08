@@ -1,4 +1,5 @@
 # IOSpace Client Side API
+# There was some problems implementing this model, left for reference or future attempt
 import paho.mqtt.client as mqtt
 import multiprocessing
 
