@@ -23,8 +23,8 @@ class IOSpace:
             self.feedback_value = msg
 
     # Class Constructor preforms required setup based on user input
-    def __init__(self, apikey: str, node_name: str, address: str, feedback: bool, device_name: str, device_function,
-                 feedback_device_type=None, timeout=30, debug=False):
+    def __init__(self, apikey: str, node_name: str, address: str, device_name: str, device_function,
+                 feedback=False, feedback_device_type=None, timeout=30, debug=False):
         self.node_ready = False
         self.apikey = apikey
         self.node_name = node_name.lower()
