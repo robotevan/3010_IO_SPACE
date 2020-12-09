@@ -26,6 +26,11 @@ EMAIL_NOTIFICATION_TEXT = "Below is your new IO Space API key, keep a copy of th
 
 
 def get_user_nodes(api_key):
+    """
+    Function to retrieve a list of devices associated to a user
+    :param api_key: the api key of the user
+    :return: json formatted string containing user credentials
+    """
     device_lst = []
     # Get the user_data collection
     user_data_collection = db['user_data']
@@ -69,7 +74,10 @@ def get_user_nodes(api_key):
 
 @app.route('/login/user', methods=["GET"])
 def verify_login():
-    print("HERE")
+    """
+    Function to verify if a provided API key is valid
+    :return:json formatted string containing response
+    """
     try:
         api_key = request.args.get('api_key')  # Fetch the api provided by the user
         if db['user_data'].find_one({"api_key": api_key}) is not None:
@@ -82,6 +90,11 @@ def verify_login():
 
 @app.route('/newUser/user')
 def create_user_apikey():
+    """
+    Function to send an email containing a user api_key, will also add user to database anb initialize
+    documents
+    :return: json formatted string
+    """
     email = request.args.get("email")  # Fetch provided email
     if db["user_data"].find_one({"email": email}) is not None:
         return {"success": False}  # This email is already in the database!
@@ -110,6 +123,10 @@ def create_user_apikey():
 
 @app.route('/MyIOSpace', methods=['GET'])
 def fetch_devices():
+    """
+    Constant poll to retrieve list of devices, this is called async from web app to display devices
+    :return: json formatted string containing list of devices
+    """
     api_key = request.args.get("api_key")
     print(api_key)
     try:
@@ -121,6 +138,10 @@ def fetch_devices():
 
 @app.route('/MyIOSpace/deviceOn')
 def set_device_on():
+    """
+    Change the state of a feedback device from off to on using mqtt
+    :return: the new device status
+    """
     print("turning device on")
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
@@ -133,6 +154,10 @@ def set_device_on():
 
 @app.route('/MyIOSpace/deviceOff')
 def set_device_off():
+    """
+    Change a feedback devices state from on to off, using mqtt
+    :return: A json formatted string containing new state
+    """
     print("Turning device off")
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
