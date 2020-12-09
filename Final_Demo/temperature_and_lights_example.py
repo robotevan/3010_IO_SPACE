@@ -1,6 +1,7 @@
 import adafruit_dht
 import RPi.GPIO as GPIO
 import iospaceAPI as api
+import random
 
 API_KEY = "i3fy7j98zbqc"
 NODE_NAME = "my_node"
@@ -37,6 +38,9 @@ def change_lights(value):
     elif value == "off":
         GPIO.output(LED_PIN, GPIO.LOW)
 
+def random_int():
+    return random.randint(0,10)
+
 
 dht_device = api.IOSpace(API_KEY, NODE_NAME, SERVER_ADDRESS, False, DHT_DEVICE_NAME, get_temperature_value)
 
@@ -44,8 +48,12 @@ dht_device = api.IOSpace(API_KEY, NODE_NAME, SERVER_ADDRESS, False, DHT_DEVICE_N
 light_device = api.IOSpace(API_KEY, NODE_NAME, SERVER_ADDRESS, True, LED_DEVICE_NAME, change_lights, "switch",debug=True)
 
 
-dht_device.start()
-light_device.start()
+rand = api.IOSpace(API_KEY, NODE_NAME, SERVER_ADDRESS, False, "test", random_int,debug=True)
+
+
+#dht_device.start()
+#light_device.start()
+rand.start()
 
 #time.sleep(1)
 

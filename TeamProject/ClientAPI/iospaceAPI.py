@@ -1,10 +1,13 @@
 # IOSpace Client Side API
+
 import paho.mqtt.client as mqtt
 import threading
 import time
 
+
 class IOSpace:
 
+    # Processes incoming messages from MQTT Server
     def on_message(self, client, userdata, message):
         msg = message.payload.decode("utf-8")
         topic_list = self._parse_topic(message.topic)
@@ -19,7 +22,9 @@ class IOSpace:
             self.feedback_request_pending = True
             self.feedback_value = msg
 
-    def __init__(self, apikey: str, node_name: str, address: str, feedback: bool, device_name:str, device_function, feedback_device_type=None ,timeout=30, debug=False):
+    # Class Constructor preforms required setup based on user input
+    def __init__(self, apikey: str, node_name: str, address: str, feedback: bool, device_name: str, device_function,
+                 feedback_device_type=None, timeout=30, debug=False):
         self.node_ready = False
         self.apikey = apikey
         self.node_name = node_name.lower()
@@ -27,7 +32,8 @@ class IOSpace:
         self.device_started = False
 
         if feedback:
-            if  feedback_device_type == None or (feedback_device_type.lower() != "value" and feedback_device_type.lower() != "switch"):
+            if feedback_device_type is None or (
+                    feedback_device_type.lower() != "value" and feedback_device_type.lower() != "switch"):
                 raise ValueError("feedback_device_type required for feedback devices. Options: \"Value\" or \"Switch\"")
             else:
                 self.feedback_device_type = feedback_device_type.lower()
@@ -48,11 +54,14 @@ class IOSpace:
         self.debug = debug
         self.device_function = device_function
         self.mqtt_client = self.connect_to_broker(self.address, self.client_name, self.message_function, self.timeout)
+
         if not self._authenticate_node_request():
             raise ConnectionError("Device authentication request failed, no response from server!")
+
         self.device_thread = None
         self.thread_running = False
 
+    # Starts a connection with the MQTT Server
     def connect_to_broker(self, address: str, client_name: str, message_function, timeout) -> mqtt.Client:
         if self.debug: print("Connecting to MQTT Server on", address)
         mqtt_client = mqtt.Client(client_name)
@@ -95,14 +104,14 @@ class IOSpace:
     def is_connected(self):
         return self.mqtt_client.is_connected()
 
-    # Splits a topic into a list
     def _parse_topic(self, topic):
         return topic.split("/")
 
-    # Reassmbels topic back into a string
     def _construct_topic(self, topic_list):
         return "/".join(topic_list)
 
+    # Attempts to authenticate the device based on the device type, this only indicates that Sensor or Feedback
+    # information will be accepted by system
     def _authenticate_node_request(self):
         try:
             self.feedback_device_type
@@ -130,6 +139,7 @@ class IOSpace:
                 self._stop_mqtt_thread()
                 return False
 
+    # Start a thread based on the device type
     def start(self):
         if not self.device_started:
             self._start_mqtt_thread()
@@ -144,6 +154,7 @@ class IOSpace:
                 self.device_thread = threading.Thread(target=self.sensor_thread_function)
                 self.device_thread.start()
 
+    # Waits for a feedback request from system and passes it to device function
     def feedback_thread_function(self):
         while True:
             if self.feedback_request_pending:
@@ -153,11 +164,13 @@ class IOSpace:
                 elif self.feedback_device_type == "value":
                     self.device_function(int(self.feedback_value))
 
+    # Sends device data every 10 seconds if the device is a sensor
     def sensor_thread_function(self):
         while True:
             self._publish(self.send_topic, self.device_function(), 0)
-            time.sleep(10)
+            time.sleep(10) # dont thing about changing this user collection size is capped
 
+    # Cleanly stops thread and unsubscribes from topics
     def stop(self):
         if self.device_started:
             self._start_mqtt_thread()
@@ -165,14 +178,3 @@ class IOSpace:
             self._unsubscribe(self.receive_topic)
             self.thread_running = False
             self.device_thread.join()
-
-
-if __name__ == "__main__":
-
-    def func(value):
-        print(value)
-
-    test = IOSpace("luj3o4u3d814", "Node1", "192.168.1.15", True, "Light", func, "Switch",debug=True)
-    test.start()
-    time.sleep(1)
-    test.stop()

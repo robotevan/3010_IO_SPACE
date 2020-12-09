@@ -1,4 +1,4 @@
-#Backend unit test
+# Backend unit test
 import backendAPI as api
 import unittest
 import time
@@ -7,17 +7,21 @@ MQTT_CLIENT_NAME = "test"
 CONNECTION_STRING = "mongodb://192.168.1.48:27017"
 BROKER_ADDRESS = "192.168.1.15"
 
-#Called when a message from subscribed topics is received from broker on client
+
+# Called when a message from subscribed topics is received from broker on client
 def on_message(client, userdata, message):
-    print("message received " ,str(message.payload.decode("utf-8")))
-    print("message topic =",message.topic)
-    print("message qos =",message.qos)
-    print("message retain flag =",message.retain)
-    print("Is data inserted into db: ", api.insert_into_collection(test_collection, "node_test", "temperature", float(message.payload.decode("utf-8"))))
+    print("message received ", str(message.payload.decode("utf-8")))
+    print("message topic =", message.topic)
+    print("message qos =", message.qos)
+    print("message retain flag =", message.retain)
+    print("Is data inserted into db: ", api.insert_into_collection(test_collection, "node_test", "temperature",
+                                                                   float(message.payload.decode("utf-8"))))
+
 
 mqtt_client = api.connect_to_broker(BROKER_ADDRESS, MQTT_CLIENT_NAME, on_message)
 iospace_database = api.connect_to_database(CONNECTION_STRING, "iospace")
 test_collection = api.get_collection(iospace_database, "test_unit_test")
+
 
 class TestBackendMQTT(unittest.TestCase):
 
@@ -40,7 +44,7 @@ class TestBackendMQTT(unittest.TestCase):
     def test_subscribe(self):
         topic = "testsub"
         result = api.subscribe(mqtt_client, topic, 0)
-        self.assertEqual(result[0],0)
+        self.assertEqual(result[0], 0)
 
     def test_unsubscribe(self):
         topic = "testsub"
@@ -103,6 +107,7 @@ class TestMongoDB(unittest.TestCase):
         bad_collection = "collection"
         with self.assertRaises(TypeError):
             api.insert_into_collection(bad_collection, "test_node", "test_case", 1)
+
 
 if __name__ == "__main__":
     unittest.main()
