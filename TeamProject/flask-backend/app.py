@@ -5,7 +5,7 @@ import random
 import string
 import paho.mqtt.client as mqtt
 
-APIKEY_LENGTH = 12
+APIKEY_LENGTH = 12  # Length of the alpha-numeric API key we will be providing
 MQTT_CLIENT_NAME = "website_backend"
 MQTT_ADDRESS = "192.168.1.15"
 MQTT_TIMEOUT = 5
@@ -171,6 +171,10 @@ def set_device_off():
 
 @app.route('/MyIOSpace/currState')
 def get_current_state():
+    """
+    Polled to get the state of a feedback device
+    :return: json formatted string containing the device value
+    """
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
@@ -180,6 +184,10 @@ def get_current_state():
 
 @app.route('/MyIOSpace/sensorData')
 def fetch_sensor_data():
+    """
+    Function to retrieve a list of the 30 newest elements from a sensors data array, used for plotting
+    :return: json formatted string containing sensor data list
+    """
     api_key = str(request.args.get("api_key"))
     node_name = str(request.args.get("node_name"))
     device_name = str(request.args.get("device_name"))
